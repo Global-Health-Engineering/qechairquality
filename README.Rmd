@@ -80,6 +80,16 @@ dat_in_sum <- dat_in %>%
             sd = sd(value),
             max = max(value))
 
+# Data transformation - air quality summary
+
+dat_air_quality_sum <- dat_air_quality %>% 
+  group_by(location, indicator, air_quality) %>% 
+  count(air_quality) %>% 
+  mutate(exposure_mins = n * 5) %>% 
+  mutate(exposure_hrs = round(exposure_mins / 60)) %>% 
+  select(-n)
+
+
 ```
 
 # Introduction
@@ -147,20 +157,52 @@ TODO
 ```
 
 
-## Plot: Exposure in categories of hazard
+## Table: Exposure in hours in categories of hazard
 
 ```{r, out.width="80%"}
 
-knitr::include_graphics(here::here("images/usepa-air-quality-categories.png"))
+knitr::include_graphics(here::here("img/usepa-air-quality-categories.png"))
 
 ```
-
 
 ```{r}
 
-
+dat_air_quality_sum %>% 
+  DT::datatable()
+  
   
 ```
 
+## Plot: Exposure in hours in categories of hazard
+
+```{r}
+
+dat_air_quality_sum %>% 
+  ggplot(aes(x = air_quality, y = exposure_hrs)) +
+  geom_col() +
+  coord_flip() +
+  theme_minimal(base_size = 12)
+
+```
+
+```{r}
+
+dat_air_quality_sum %>% 
+  ggplot(aes(x = air_quality, y = exposure_hrs, fill = location)) +
+  geom_col(position = position_dodge()) +
+    scale_fill_brewer(type = "qual") + 
+  facet_wrap(~location) +
+  coord_flip() +
+    labs(title = "Air quality at locations at a Hospital Malawi",
+       subtitle = "Hours of exposure against PM2.5 and PM10 categorised by USEPA standards",
+       y = "Exposure [hours]",
+       x = NULL,
+       caption = "Data and analysis by @ETH_GHE",
+       fill = "Location") +
+    theme_minimal(base_size = 12) +
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank())
+
+```
 
 
