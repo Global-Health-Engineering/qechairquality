@@ -40,7 +40,7 @@ raw_data_list <- list()
 
 for (i in seq_along(raw_data_xls)) {
   raw_data_list[[i]] <- read_excel(path = here::here(raw_data_xls)[[i]], 
-                                   col_names = c("pm2.5", "pm10", "date"), 
+                                   col_names = c("pm2.5", "pm10", "date_time"), 
                                    range = "A1:C10000") %>% 
     mutate(path = raw_data_xls[[i]]) %>% 
     mutate(pm2.5 = as.double(pm2.5)) %>% 
@@ -58,7 +58,7 @@ dat_clean <- bind_rows(raw_data_list) %>%
   
   # In location 6B, there are eight dates that are not read completely
   # These data points are removed
-  filter(date <= "2020-01-01") %>% 
+  filter(date_time <= "2020-01-01") %>% 
   
   # In location guardian, 34 values for pm2.5 are between 30'000 and 40'000
   # In location guardian, 4 values are exactly 1999.90

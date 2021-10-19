@@ -3,6 +3,8 @@ title: "Manuscript"
 subtitle: "Malawi Hospital Air Quality Data"
 date: "`r Sys.Date()`"
 output: github_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -16,6 +18,8 @@ library(dplyr)
 library(DT)
 library(forcats)
 library(lubridate)
+library(ggplot2)
+
 ```
 
 ```{r}
@@ -72,7 +76,7 @@ The purpose of this document is to perform some initial exploratory data analysi
 
 # Data 
 
-Air quality data (PM2.5 and PM10) was collected in roughly 5-minute intervals from eight locations at one hospital. The locations are `r knitr::combine_words(vec_hospital_name)`.
+Air quality data (PM2.5 and PM10) was collected in roughly 5-minute intervals from eight locations at one hospital over the period of 3 months. The locations are `r knitr::combine_words(vec_hospital_name)`.
 
 One sensor was installed at each location, either on the side or on the outside wall. 
 
@@ -89,29 +93,29 @@ One sensor was installed at each location, either on the side or on the outside 
 	- Guardian shelter
 		- Shed/barn where guardians sleep at night
 		- 40 women cooking with charcoal inside the barn
-		
+	
+## Overview Plot	
+
+```{r plot-overview, fig.cap="Figure caption me!", fig.height=18, fig.width=10}
+
+dat_in %>% 
+  ggplot(aes(x = date_time, y = value, color = indicator)) +
+  geom_line() +
+  #geom_hline(yintercept = 250.5, color = "red") +
+  #geom_hline(yintercept = 425.0, color = "red") +
+  labs(title = "Hospital Air Quality",
+       subtitle = "PM2.5 and PM10  measurements in 5-min intervals at eight locations") +
+  theme_bw(base_size = 12) +
+  facet_wrap(~location, ncol = 1, scales = "free")
+```
+
+## 24-hour average
+
 ```{r}
 
-yr_vec <- dat_clean %>% 
-  #filter(location == "6B") %>% 
-  mutate(year = year(date)) %>% 
-  count(year) %>% 
-  filter(year != 2019) %>% 
-  pull(year)
+dat_in %>% 
+  mutate(date_time = )
 
-dat_clean %>% 
-    mutate(year = year(date)) %>% 
-  filter(year %in% yr_vec)
-
-  ggplot(aes(x = date, y = value, color = indicator)) +
-  geom_line() 
-
-
-dat_clean %>% 
-  ggplot(aes(x = date, y = value, color = indicator)) +
-  geom_line() +
-  facet_wrap(~location, ncol = 1)
-  
 ```
 
 
