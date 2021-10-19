@@ -68,6 +68,18 @@ dat_air_quality <- dat_in %>%
   mutate(air_quality =
                     fct_relevel(air_quality, 
                                 levels = usepa_level_fct)) 
+
+# Data transformation - summary statistics
+
+dat_in_sum <- dat_in %>% 
+  mutate(date = as_date(date_time)) %>% 
+  group_by(date, location, indicator) %>% 
+  summarise(min = min(value),
+            median = median(value),
+            mean = mean(value),
+            sd = sd(value),
+            max = max(value))
+
 ```
 
 # Introduction
@@ -94,7 +106,7 @@ One sensor was installed at each location, either on the side or on the outside 
 		- Shed/barn where guardians sleep at night
 		- 40 women cooking with charcoal inside the barn
 	
-## Overview Plot	
+## Plot: Overview 
 
 ```{r plot-overview, fig.cap="Figure caption me!", fig.height=18, fig.width=10}
 
@@ -109,13 +121,45 @@ dat_in %>%
   facet_wrap(~location, ncol = 1, scales = "free")
 ```
 
-## 24-hour average
+## Plot: Daily 24-hour average by date
+
+```{r plot-overview, fig.cap="Figure caption me!", fig.height=18, fig.width=10}
+
+dat_in_sum %>% 
+  ggplot(aes(x = date, y = mean, group = indicator, color = indicator)) +
+  geom_point(size = 0.8) +
+  geom_line() +
+  labs(title = "Hospital Air Quality",
+       subtitle = "Average 24-hour PM2.5 and PM10 concentrations at eight locations") +
+  facet_wrap(~location, ncol = 1, scales = "free") +
+  theme_bw(base_size = 12) 
+  #theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+  
+
+```
+
+## Plot: Daily 24-hour average (rolling)
+
+TODO
+
+```{r}
+# TODO
+```
+
+
+## Plot: Exposure in categories of hazard
+
+```{r, out.width="80%"}
+
+knitr::include_graphics(here::here("images/usepa-air-quality-categories.png"))
+
+```
+
 
 ```{r}
 
-dat_in %>% 
-  mutate(date_time = )
 
+  
 ```
 
 
