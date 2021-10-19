@@ -66,14 +66,24 @@ dat_air_quality <- dat_in %>%
     indicator == "pm10" & value > 424.9 ~ "Hazardous",
   )) %>% 
   mutate(air_quality =
-                    fct_relevel(air_quality, 
-                                levels = usepa_level_fct)) 
+           fct_relevel(air_quality, 
+                       levels = usepa_level_fct)) 
 
 # Data transformation - summary statistics
 
-dat_in_sum <- dat_in %>% 
+dat_in_sum_day <- dat_in %>% 
   mutate(date = as_date(date_time)) %>% 
   group_by(date, location, indicator) %>% 
+  summarise(min = min(value),
+            median = median(value),
+            mean = mean(value),
+            sd = sd(value),
+            max = max(value))
+
+dat_in_sum_hour <- dat_in %>% 
+  mutate(date = as_date(date_time)) %>% 
+  mutate(hour = hour(date_time)) %>% 
+  group_by(date, hour, location, indicator) %>% 
   summarise(min = min(value),
             median = median(value),
             mean = mean(value),
@@ -89,6 +99,7 @@ dat_air_quality_sum <- dat_air_quality %>%
   mutate(exposure_hrs = round(exposure_mins / 60)) %>% 
   select(-n)
 
+# data transformation - peaks over 500
 
 ```
 
@@ -104,18 +115,16 @@ One sensor was installed at each location, either on the side or on the outside 
 
 # Data Exploration
 
-- 24 hour average
+TODO List: 
+
+- 24 hour average (**DONE**)
 - baseline (not the two peaks)
-- Hourly average
-- Exposure in categories of hazard
-- Peaks over 500 a day
+- Hourly average (**DONE**)
+- Exposure in categories of hazard (**DONE**)
+- Peaks over 500 a day 
 - Difference between indoor and outdoor sensors
 - Ratios PM10 / PM25 (differences by location)
-	- Indicator for composition of waste that is being burned
-	- Guardian shelter
-		- Shed/barn where guardians sleep at night
-		- 40 women cooking with charcoal inside the barn
-	
+
 ## Plot: Overview 
 
 ```{r plot-overview, fig.cap="Figure caption me!", fig.height=18, fig.width=10}
@@ -135,7 +144,7 @@ dat_in %>%
 
 ```{r plot-daily-avg, fig.cap="Figure caption me!", fig.height=18, fig.width=10}
 
-dat_in_sum %>% 
+dat_in_sum_day %>% 
   ggplot(aes(x = date, y = mean, group = indicator, color = indicator)) +
   geom_point(size = 0.8) +
   geom_line() +
@@ -143,8 +152,8 @@ dat_in_sum %>%
        subtitle = "Average 24-hour PM2.5 and PM10 concentrations at eight locations") +
   facet_wrap(~location, ncol = 1, scales = "free") +
   theme_bw(base_size = 12) 
-  #theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
-  
+#theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
 
 ```
 
@@ -154,6 +163,31 @@ TODO
 
 ```{r}
 # TODO
+```
+
+
+## Plot: Hourly average by date and location
+
+```{r plot-hourly-avg, fig.cap="Figure caption me!", fig.height=12, fig.width=10}
+
+for (name in vec_hospital_name) {
+  
+  hmap_plot <- dat_in_sum_hour %>% 
+    filter(location == name) %>% 
+    ggplot(aes(x = hour, y = as.factor(date), fill = mean)) +
+    geom_tile() +
+    labs(title = paste("Hospital Air Quality", "-" , name),
+         subtitle = "Hourly average 24-hour PM2.5 and PM10 concentrations",
+         y = NULL) +
+    scale_fill_viridis_c() +
+    scale_x_continuous(breaks = seq(0, 24, 1)) +
+    facet_wrap(~indicator) +
+    theme_bw(base_size = 12) +
+    theme(panel.grid = element_blank())
+  
+  print(hmap_plot)
+}
+
 ```
 
 
@@ -180,16 +214,16 @@ dat_air_quality_sum %>%
 dat_air_quality_sum %>% 
   ggplot(aes(x = air_quality, y = exposure_hrs, fill = location)) +
   geom_col(position = position_dodge()) +
-    scale_fill_brewer(type = "qual") + 
+  scale_fill_brewer(type = "qual") + 
   facet_wrap(~location) +
   coord_flip() +
-    labs(title = "Air quality at locations at a Hospital Malawi",
+  labs(title = "Air quality at locations at a Hospital Malawi",
        subtitle = "Hours of exposure against PM2.5 and PM10 categorised by USEPA standards",
        y = "Exposure [hours]",
        x = NULL,
        caption = "Data and analysis by @ETH_GHE",
        fill = "Location") +
-    theme_minimal(base_size = 12) +
+  theme_minimal(base_size = 12) +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major.y = element_blank())
 
