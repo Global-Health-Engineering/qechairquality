@@ -1,7 +1,5 @@
 ---
-title: "Manuscript"
-subtitle: "Malawi Hospital Air Quality Data"
-date: "`r Sys.Date()`"
+title: "Manuscript - Malawi Hospital Air Quality Data - Notebook"
 output: github_document
 editor_options: 
   chunk_output_type: console
@@ -125,12 +123,12 @@ One sensor was installed at each location, either on the side or on the outside 
 TODO List: 
 
 - 24 hour average (**DONE**)
-- baseline (not the two peaks)
+- baseline (not the two peaks) (**not started**)
 - Hourly average (**DONE**)
 - Exposure in categories of hazard (**DONE**)
 - Peaks over 500 a day (**DONE**)
-- Difference between indoor and outdoor sensors 
-- Ratios PM10 / PM25 (differences by location)
+- Difference between indoor and outdoor sensors (**not started**)
+- Ratios PM10 / PM25 (differences by location) (**WIP**)
 
 ## Plot: Overview 
 
@@ -264,7 +262,7 @@ dat_in %>%
 - Calculation: PM10/PM2.5
 - Each line shows the minimum and maximum per day after calculating the average ratio per hour
 
-```{r}
+```{r plot-ratio, fig.cap="Figure caption me!", fig.height=14, fig.width=10}
 
 dat_in %>% 
   mutate(date = as_date(date_time)) %>% 
@@ -281,7 +279,7 @@ dat_in %>%
   
   ggplot(aes(x = date)) +
   geom_linerange(aes(ymin = min, ymax = max)) +
-  facet_wrap(~location)
+  facet_wrap(~location, ncol = 2)
   
   
 ```
