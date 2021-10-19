@@ -1,0 +1,118 @@
+---
+title: "Manuscript"
+subtitle: "Malawi Hospital Air Quality Data"
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+
+```{r}
+library(readr)
+library(dplyr)
+library(DT)
+library(forcats)
+library(lubridate)
+```
+
+```{r}
+
+dat_in <- read_csv(here::here("data/intermediate/malawi-hospitals-air-quality"))
+
+vec_hospital_id <- dat_in %>% 
+  count(id) %>% 
+  pull(id)
+
+vec_hospital_name <- dat_in %>% 
+  count(location) %>% 
+  pull(location)
+
+
+```
+
+```{r}
+
+# Data transformation
+
+usepa_level_fct <- c("Good", 
+                     "Moderate", 
+                     "Unhealthy for Sensitive Groups", 
+                     "Unhealthy", 
+                     "Very Unhealthy", 
+                     "Hazardous")
+
+# Data transformation
+
+dat_air_quality <- dat_in %>% 
+  mutate(air_quality = case_when(
+    indicator == "pm2.5" & value <= 12 ~ "Good",
+    indicator == "pm2.5" & value > 12 & indicator == "pm2.5" & value <= 35.4 ~ "Moderate",
+    indicator == "pm2.5" & value > 35.4 & indicator == "pm2.5" & value <= 55.4 ~ "Unhealthy for Sensitive Groups",
+    indicator == "pm2.5" & value > 55.4 & indicator == "pm2.5" & value <= 150.4 ~ "Unhealthy",
+    indicator == "pm2.5" & value > 150.4 & indicator == "pm2.5" & value <= 250.4 ~ "Very Unhealthy",
+    indicator == "pm2.5" & value > 250.4 ~ "Hazardous",
+    indicator == "pm10" & value <= 54.9 ~ "Good",
+    indicator == "pm10" & value > 54.9 & indicator == "pm10" & value <= 154.9 ~ "Moderate",
+    indicator == "pm10" & value > 154.9 & indicator == "pm10" & value <= 254.9 ~ "Unhealthy for Sensitive Groups",
+    indicator == "pm10" & value > 254.9 & indicator == "pm10" & value <= 354.9 ~ "Unhealthy",
+    indicator == "pm10" & value > 354.9 & indicator == "pm10" & value <= 424.9 ~ "Very Unhealthy",
+    indicator == "pm10" & value > 424.9 ~ "Hazardous",
+  )) %>% 
+  mutate(air_quality =
+                    fct_relevel(air_quality, 
+                                levels = usepa_level_fct)) 
+```
+
+# Introduction
+
+The purpose of this document is to perform some initial exploratory data analysis for air quality data from Malawi. Based on this analysis, in-depth analysis will be performed and publication ready figures can be produced. 
+
+# Data 
+
+Air quality data (PM2.5 and PM10) was collected in roughly 5-minute intervals from eight locations at one hospital. The locations are `r knitr::combine_words(vec_hospital_name)`.
+
+One sensor was installed at each location, either on the side or on the outside wall. 
+
+# Data Exploration
+
+- 24 hour average
+- baseline (not the two peaks)
+- Hourly average
+- Exposure in categories of hazard
+- Peaks over 500 a day
+- Difference between indoor and outdoor sensors
+- Ratios PM10 / PM25 (differences by location)
+	- Indicator for composition of waste that is being burned
+	- Guardian shelter
+		- Shed/barn where guardians sleep at night
+		- 40 women cooking with charcoal inside the barn
+		
+```{r}
+
+yr_vec <- dat_clean %>% 
+  #filter(location == "6B") %>% 
+  mutate(year = year(date)) %>% 
+  count(year) %>% 
+  filter(year != 2019) %>% 
+  pull(year)
+
+dat_clean %>% 
+    mutate(year = year(date)) %>% 
+  filter(year %in% yr_vec)
+
+  ggplot(aes(x = date, y = value, color = indicator)) +
+  geom_line() 
+
+
+dat_clean %>% 
+  ggplot(aes(x = date, y = value, color = indicator)) +
+  geom_line() +
+  facet_wrap(~location, ncol = 1)
+  
+```
+
+
+
