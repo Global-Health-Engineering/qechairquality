@@ -19,6 +19,8 @@ library(DT)
 library(forcats)
 library(lubridate)
 library(ggplot2)
+library(janitor)
+library(tidyr)
 
 ```
 
@@ -99,7 +101,12 @@ dat_air_quality_sum <- dat_air_quality %>%
   mutate(exposure_hrs = round(exposure_mins / 60)) %>% 
   select(-n)
 
-# data transformation - peaks over 500
+# data transformation - peaks over twice the limit
+
+
+
+
+
 
 ```
 
@@ -121,8 +128,8 @@ TODO List:
 - baseline (not the two peaks)
 - Hourly average (**DONE**)
 - Exposure in categories of hazard (**DONE**)
-- Peaks over 500 a day 
-- Difference between indoor and outdoor sensors
+- Peaks over 500 a day (**DONE**)
+- Difference between indoor and outdoor sensors 
 - Ratios PM10 / PM25 (differences by location)
 
 ## Plot: Overview 
@@ -229,4 +236,53 @@ dat_air_quality_sum %>%
 
 ```
 
+## Table: Peaks over twice the limit for hazardous
+
+- Peak for PM2.5: 2 x 250.4 = `r 2 * 250.4`
+- Peak for PM10: 2 x 424.9 = `r 2 * 424.9`
+- Column peaks counts the number of data points above these two limits over all days
+
+```{r}
+
+dat_in %>% 
+  mutate(peaks = case_when(
+    indicator == "pm2.5" & value > 2 * 250.4 ~ TRUE,
+    indicator == "pm10" & value > 2 * 424.9 ~ TRUE,
+    TRUE ~ FALSE
+  )) %>% 
+  mutate(date = as_date(date_time)) %>% 
+  group_by(indicator, location) %>% 
+  summarise(
+    peaks = sum(peaks)
+  ) %>% 
+  knitr::kable()
+
+```
+
+## Plot: Ratio between PM10 and PM2.5 range from minimum to maximum (WIP)
+
+- Calculation: PM10/PM2.5
+- Each line shows the minimum and maximum per day after calculating the average ratio per hour
+
+```{r}
+
+dat_in %>% 
+  mutate(date = as_date(date_time)) %>% 
+  mutate(hour = hour(date_time)) %>% 
+  group_by(date, hour, location, indicator) %>% 
+  summarise(mean = mean(value)) %>% 
+  pivot_wider(names_from = indicator, 
+              values_from = mean) %>% 
+
+  mutate(p10_pm2.5_ratio = pm10/pm2.5)  %>% 
+  group_by(date, location) %>% 
+  summarise(min = min(p10_pm2.5_ratio),
+            max = max(p10_pm2.5_ratio)) %>% 
+  
+  ggplot(aes(x = date)) +
+  geom_linerange(aes(ymin = min, ymax = max)) +
+  facet_wrap(~location)
+  
+  
+```
 
