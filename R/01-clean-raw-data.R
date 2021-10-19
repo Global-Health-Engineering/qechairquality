@@ -55,8 +55,14 @@ dat_clean <- bind_rows(raw_data_list) %>%
   pivot_longer(cols = pm2.5:pm10, names_to = "indicator", values_to = "value") %>% 
   mutate(unit = "uq_m3") %>% 
   select(-path) %>% 
+  
   # In location 6B, there are eight dates that are not read completely
   # These data points are removed
-  filter(date <= "2020-01-01")
+  filter(date <= "2020-01-01") %>% 
+  
+  # In location guardian, 34 values for pm2.5 are between 30'000 and 40'000
+  # In location guardian, 4 values are exactly 1999.90
+  # These values are not plausible and be safely removed from the data
+  filter(value <= 10000 & value != 1999.90) 
   
 write_csv(x = dat_clean, file = "data/intermediate/malawi-hospitals-air-quality")
