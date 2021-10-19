@@ -133,7 +133,7 @@ dat_in %>%
 
 ## Plot: Daily 24-hour average by date
 
-```{r plot-overview, fig.cap="Figure caption me!", fig.height=18, fig.width=10}
+```{r plot-daily-avg, fig.cap="Figure caption me!", fig.height=18, fig.width=10}
 
 dat_in_sum %>% 
   ggplot(aes(x = date, y = mean, group = indicator, color = indicator)) +
@@ -157,7 +157,7 @@ TODO
 ```
 
 
-## Table: Exposure in hours in categories of hazard
+## Plot: Exposure in hours in categories of hazard
 
 ```{r, out.width="80%"}
 
@@ -165,17 +165,7 @@ knitr::include_graphics(here::here("img/usepa-air-quality-categories.png"))
 
 ```
 
-```{r}
-
-dat_air_quality_sum %>% 
-  DT::datatable()
-  
-  
-```
-
-## Plot: Exposure in hours in categories of hazard
-
-```{r}
+```{r plot-hazard-expo1, fig.cap="Figure caption me!"}
 
 dat_air_quality_sum %>% 
   ggplot(aes(x = air_quality, y = exposure_hrs)) +
@@ -185,7 +175,7 @@ dat_air_quality_sum %>%
 
 ```
 
-```{r}
+```{r plot-hazard-expo2, fig.cap="Figure caption me!", fig.height=12, fig.width=12}
 
 dat_air_quality_sum %>% 
   ggplot(aes(x = air_quality, y = exposure_hrs, fill = location)) +
