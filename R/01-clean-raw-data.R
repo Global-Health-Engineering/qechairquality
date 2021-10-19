@@ -63,7 +63,11 @@ dat_clean <- bind_rows(raw_data_list) %>%
   # In location guardian, 34 values for pm2.5 are between 30'000 and 40'000
   # In location guardian, 4 values are exactly 1999.90
   # These values are not plausible and be safely removed from the data
-  filter(value <= 10000 & value != 1999.90) 
+  filter(value <= 10000 & value != 1999.90) %>% 
+  
+  # remove the duplicates
+  unique()
+  
   
 write_csv(x = dat_clean, file = "data/intermediate/malawi-hospitals-air-quality")
 
