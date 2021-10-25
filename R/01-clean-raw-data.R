@@ -71,7 +71,7 @@ dat_clean <- bind_rows(raw_data_list) %>%
   filter(value <= 10000 & value != 1999.90)
   
   
-write_csv(x = dat_clean, file = "data/intermediate/malawi-hospitals-air-quality")
+write_csv(x = dat_clean, file = "data/intermediate/malawi-hospitals-air-quality.csv")
 
 
 # Test: On which file names are the duplicates?

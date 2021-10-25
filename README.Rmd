@@ -24,7 +24,7 @@ library(tidyr)
 
 ```{r}
 
-dat_in <- read_csv(here::here("data/intermediate/malawi-hospitals-air-quality"))
+dat_in <- read_csv(here::here("data/intermediate/malawi-hospitals-air-quality.csv"))
 
 vec_hospital_id <- dat_in %>% 
   count(id) %>% 
