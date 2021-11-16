@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "If you use data or software from this package, please cite as stated below"
 authors:
-  - family-names: Authors
-    given-names: All Other
+  - family-names: Chilunga
+    given-names: Hope
     orcid: https://orcid.org/0000-0000-0000-0000
   - family-names: Kalina
     given-names: Marc
