@@ -190,7 +190,9 @@ TODO
 ```
 
 
-## Plot: Hourly average by date and location
+## Plot: Hourly average by date and location 
+
+Not included in paper.
 
 ```{r plot-hourly-avg, fig.cap="Figure caption me!", fig.height=12, fig.width=10}
 
@@ -223,16 +225,6 @@ knitr::include_graphics(here::here("img/usepa-air-quality-categories.png"))
 
 ```
 
-```{r plot-hazard-expo1, fig.cap="Figure caption me!"}
-
-dat_air_quality_sum %>% 
-  ggplot(aes(x = air_quality, y = exposure_hrs)) +
-  geom_col() +
-  coord_flip() +
-  theme_minimal(base_size = 12)
-
-```
-
 ```{r plot-hazard-expo2, fig.cap="Figure caption me!", fig.height=12, fig.width=12}
 
 # TODO: Prepare a %age version
@@ -249,7 +241,7 @@ dat_air_quality_sum %>%
        x = NULL,
        caption = "Data and analysis by @ETH_GHE",
        fill = "Location") +
-  theme_minimal(base_size = 12) +
+  theme_minimal(base_size = 14) +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major.y = element_blank())
 
