@@ -227,8 +227,6 @@ knitr::include_graphics(here::here("img/usepa-air-quality-categories.png"))
 
 ```{r plot-hazard-expo2, fig.cap="Figure caption me!", fig.height=12, fig.width=12}
 
-# TODO: Prepare a %age version
-
 dat_air_quality_sum %>% 
   ggplot(aes(x = air_quality, y = exposure_hrs, fill = location)) +
   geom_col(position = position_dodge()) +
@@ -242,6 +240,30 @@ dat_air_quality_sum %>%
        caption = "Data and analysis by @ETH_GHE",
        fill = "Location") +
   theme_minimal(base_size = 14) +
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank())
+
+```
+
+```{r plot-hazard-expo2, fig.cap="Figure caption me!", fig.height=12, fig.width=12}
+
+# TODO: Prepare a waffle plot
+
+dat_air_quality_sum %>% 
+  group_by(location, indicator) %>% 
+  mutate(exposure_percent = exposure_hrs / sum(exposure_hrs) * 100) %>% 
+  ggplot(aes(x = air_quality, y = exposure_percent)) +
+  geom_col(position = position_dodge()) +
+  scale_fill_brewer(type = "qual") + 
+  facet_grid(indicator ~ location) +
+  coord_flip() +
+  labs(title = "Air quality at locations at a Hospital Malawi",
+       subtitle = "Hours of exposure against PM2.5 and PM10 categorised by USEPA standards",
+       y = "Exposure [percent]",
+       x = NULL,
+       caption = "Data and analysis by @ETH_GHE",
+       fill = "Location") +
+  theme_bw(base_size = 14) +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major.y = element_blank())
 
