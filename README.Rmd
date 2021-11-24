@@ -291,20 +291,51 @@ dat_air_quality_sum %>%
 
 ### New plot 2
 
-- Issue: Rounding errors lead to some locations with more than 100 blocks
-
 ```{r}
 
 dat_air_quality_sum %>% 
   #filter(indicator == "pm2.5") %>% 
   group_by(location, indicator) %>% 
-  mutate(exposure_percent = round(exposure_hrs / sum(exposure_hrs) * 100, 0)) %>%
+  mutate(exposure_percent = round(exposure_hrs / sum(exposure_hrs) * 100, 0)) %>% 
+  
+  # manipulate data for purpose of plot
+  
+  mutate(exposure_percent = case_when(
+    location == "Administration" 
+    & indicator == "pm2.5" 
+    & air_quality == "Moderate" ~ exposure_percent - 1,
+
+    location == "guardian" 
+    & indicator == "pm10" 
+    & air_quality == "Good" ~ exposure_percent - 1,
+    
+    location == "guardian" 
+    & indicator == "pm2.5" 
+    & air_quality == "Unhealthy" ~ exposure_percent - 1,
+    
+    location == "Lhouse" 
+    & indicator == "pm10" 
+    & air_quality == "Good" ~ exposure_percent - 1,
+    
+    location == "MJC" 
+    & indicator == "pm10" 
+    & air_quality == "Good" ~ exposure_percent + 1,
+    
+    location == "MJC" 
+    & indicator == "pm2.5" 
+    & air_quality == "Moderate" ~ exposure_percent - 1,
+    
+    TRUE ~ exposure_percent
+    
+  )) %>% 
+  
   
   ggplot(aes(fill = air_quality, values = exposure_percent)) +
   geom_waffle(color ="white", size = 0.5, n_rows = 5) +
   coord_equal() +
   labs(title = "Air quality at eight locations at a Hospital in Malawi",
-       subtitle = "Exposure in percent against PM2.5 and PM10 categorised by USEPA standards") +
+       subtitle = "Percent of time exposed per risk category - (1 square = 1 percent in each block)",
+       fill = "USEPA Categories") +
   scale_fill_brewer(type = "div", palette = "RdYlBu", direction = -1) +
   scale_x_discrete(expand=c(0,0)) +
   scale_y_discrete(expand=c(0,0)) +
@@ -316,6 +347,7 @@ dat_air_quality_sum %>%
   theme(strip.text.x = element_text(hjust = 0),
         strip.text.y = element_text(vjust = 0))
 
+ggsave("plots/plotX-epa-hazard-categories.png")
 
 ```
 
@@ -341,6 +373,8 @@ dat_in %>%
   ) %>% 
   pivot_wider(names_from = indicator, values_from = peaks) %>% 
   knitr::kable()
+
+vec_hospital_name
 
 ```
 
