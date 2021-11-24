@@ -24,7 +24,14 @@ library(tidyr)
 
 ```{r}
 
-dat_in <- read_csv(here::here("data/intermediate/malawi-hospitals-air-quality.csv"))
+dat_in <- read_csv(here::here("data/intermediate/malawi-hospitals-air-quality.csv")) %>%   
+  # remove values above 1000, as they could not plausibly be this high
+  filter(value <= 1000) %>% 
+  # not all sensors were installed on the same day or stopped 
+  # collecting data on the same day. 
+  # define a daterange for entire dataset
+  filter(date_time >= "2019-10-05 00:00:00",
+         date_time <= "2019-11-25 00:00:00") 
 
 vec_hospital_id <- dat_in %>% 
   count(id) %>% 
@@ -39,8 +46,7 @@ vec_hospital_name <- dat_in %>%
 
 ```{r}
 
-# Data transformation
-
+# define US EPA levels for air quality
 usepa_level_fct <- c("Good", 
                      "Moderate", 
                      "Unhealthy for Sensitive Groups", 
@@ -135,25 +141,17 @@ TODO List:
 
 ```{r plot-overview, fig.cap="Figure caption me!", fig.height=18, fig.width=10}
 
-# TODO: Refactor indicator variable 
-
 dat_in %>% 
-  #filter(value >= 1000) %>%
-  filter(location == "Lions") %>% 
-  filter(value <= 1000) %>% 
-  filter(date_time >= "2019-10-05 00:00:00",
-         date_time <= "2019-11-25 00:00:00") %>% 
-  #filter(location %in% c())
-  ggplot(aes(x = date_time, y = value, color = indicator)) +
+  ggplot(aes(x = date_time, y = value)) +
   geom_line(alpha = 0.5) +
-  labs(caption = "Values above 1000 have been removed from this figure") +
-  #geom_hline(yintercept = 250.5, color = "red") +
-  #geom_hline(yintercept = 425.0, color = "red") +
   labs(title = "Hospital Air Quality",
-       subtitle = "PM2.5 and PM10  measurements in 5-min intervals at eight locations") +
-  theme_bw(base_size = 12) +
-  facet_wrap(~location, ncol = 2) #, scales = "free")
+       subtitle = "PM2.5 and PM10 measurements in 5-min intervals at eight locations") +
+  facet_grid(indicator~location) +
+  theme_bw(base_size = 14) + 
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank()) 
 
+ggsave("plots/plot-appendix-five-minute-intervals.png")
 
 ```
 
@@ -161,7 +159,6 @@ dat_in %>%
 
 - Is MJC 0 after 13th November?
 - WHO limits are 24-hour averages
-- 
 
 ```{r plot-daily-avg, fig.cap="Figure caption me!", fig.height=18, fig.width=10}
 
@@ -171,13 +168,16 @@ dat_in_sum_day %>%
   ggplot(aes(x = date, y = mean, group = indicator, color = indicator)) +
   geom_point(size = 0.8) +
   geom_line() +
-  geom_hline(yintercept = 50) +
   labs(title = "Hospital Air Quality",
        subtitle = "Average 24-hour PM2.5 and PM10 concentrations at eight locations") +
-  facet_wrap(~location, ncol = 4) + #, scales = "free") +
-  theme_bw(base_size = 12) 
-#theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+  facet_wrap(~location, ncol = 4) + 
+  scale_y_continuous(limits = c(0, 400)) +
+  scale_color_brewer(type = "qual", palette = 2) + 
+  theme_bw(base_size = 14) + 
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank()) 
 
+ggsave("plots/plot1-24-hour-average.png")
 
 ```
 
@@ -293,7 +293,7 @@ dat_in %>%
   summarise(mean = mean(value)) %>% 
   pivot_wider(names_from = indicator, 
               values_from = mean) %>% 
-
+  
   mutate(p10_pm2.5_ratio = pm10/pm2.5)  %>% 
   group_by(date, location) %>% 
   summarise(min = min(p10_pm2.5_ratio),
@@ -302,7 +302,7 @@ dat_in %>%
   ggplot(aes(x = date)) +
   geom_linerange(aes(ymin = min, ymax = max)) +
   facet_wrap(~location, ncol = 2)
-  
-  
+
+
 ```
 
