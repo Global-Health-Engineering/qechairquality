@@ -19,6 +19,7 @@ library(lubridate)
 library(ggplot2)
 library(janitor)
 library(tidyr)
+library(waffle)
 
 ```
 
@@ -225,6 +226,9 @@ knitr::include_graphics(here::here("img/usepa-air-quality-categories.png"))
 
 ```
 
+
+### Totals
+
 ```{r plot-hazard-expo2, fig.cap="Figure caption me!", fig.height=12, fig.width=12}
 
 dat_air_quality_sum %>% 
@@ -245,17 +249,17 @@ dat_air_quality_sum %>%
 
 ```
 
-```{r plot-hazard-expo2, fig.cap="Figure caption me!", fig.height=12, fig.width=12}
+### Percent
 
-# TODO: Prepare a waffle plot
+```{r plot-hazard-expo2, fig.cap="Figure caption me!", fig.height=12, fig.width=12}
 
 dat_air_quality_sum %>% 
   group_by(location, indicator) %>% 
   mutate(exposure_percent = exposure_hrs / sum(exposure_hrs) * 100) %>% 
-  ggplot(aes(x = air_quality, y = exposure_percent)) +
+  ggplot(aes(x = air_quality, y = exposure_percent, fill = indicator)) +
   geom_col(position = position_dodge()) +
-  scale_fill_brewer(type = "qual") + 
-  facet_grid(indicator ~ location) +
+  scale_fill_brewer(type = "qual", palette = 2) + 
+  facet_grid(location ~ indicator) +
   coord_flip() +
   labs(title = "Air quality at locations at a Hospital Malawi",
        subtitle = "Hours of exposure against PM2.5 and PM10 categorised by USEPA standards",
@@ -268,6 +272,53 @@ dat_air_quality_sum %>%
         panel.grid.major.y = element_blank())
 
 ```
+
+### New plot 1
+
+```{r}
+
+dat_air_quality_sum %>% 
+  group_by(location, indicator) %>% 
+  mutate(exposure_percent = exposure_hrs / sum(exposure_hrs) * 100) %>% 
+  
+  ggplot(aes(x = air_quality, y = exposure_percent, color = location)) +
+  geom_point(size = 6) +
+  coord_flip() +
+  scale_color_brewer(type = "qual", palette = 2) + 
+  facet_wrap(~indicator, ncol = 4)
+
+```
+
+### New plot 2
+
+- Issue: Rounding errors lead to some locations with more than 100 blocks
+
+```{r}
+
+dat_air_quality_sum %>% 
+  #filter(indicator == "pm2.5") %>% 
+  group_by(location, indicator) %>% 
+  mutate(exposure_percent = round(exposure_hrs / sum(exposure_hrs) * 100, 0)) %>%
+  
+  ggplot(aes(fill = air_quality, values = exposure_percent)) +
+  geom_waffle(color ="white", size = 0.5, n_rows = 5) +
+  coord_equal() +
+  labs(title = "Air quality at eight locations at a Hospital in Malawi",
+       subtitle = "Exposure in percent against PM2.5 and PM10 categorised by USEPA standards") +
+  scale_fill_brewer(type = "div", palette = "RdYlBu", direction = -1) +
+  scale_x_discrete(expand=c(0,0)) +
+  scale_y_discrete(expand=c(0,0)) +
+  facet_grid(location ~ indicator, switch = "y") +
+  
+  #facet_wrap(~location, ncol = 2) +
+  theme_minimal(base_size = 14) +
+  # help from: https://stackoverflow.com/questions/34749636/left-justify-text-from-multi-line-facet-labels
+  theme(strip.text.x = element_text(hjust = 0),
+        strip.text.y = element_text(vjust = 0))
+
+
+```
+
 
 ## Table: Peaks over the limit for hazardous
 
