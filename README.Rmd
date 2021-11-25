@@ -26,6 +26,9 @@ library(waffle)
 ```{r}
 
 dat_in <- read_csv(here::here("data/intermediate/malawi-hospitals-air-quality.csv")) %>%   
+  # move to data cleaning process
+  mutate(date = as_date(date_time)) %>% 
+  mutate(hour = hour(date_time)) %>% 
   # remove values above 1000, as they could not plausibly be this high
   filter(value <= 1000) %>% 
   # not all sensors were installed on the same day or stopped 
@@ -58,6 +61,7 @@ usepa_level_fct <- c("Good",
 # Data transformation
 
 dat_air_quality <- dat_in %>% 
+  
   mutate(air_quality = case_when(
     indicator == "pm2.5" & value <= 12 ~ "Good",
     indicator == "pm2.5" & value > 12 & indicator == "pm2.5" & value <= 35.4 ~ "Moderate",
@@ -79,7 +83,6 @@ dat_air_quality <- dat_in %>%
 # Data transformation - summary statistics
 
 dat_in_sum_day <- dat_in %>% 
-  mutate(date = as_date(date_time)) %>% 
   group_by(date, location, indicator) %>% 
   summarise(min = min(value),
             median = median(value),
@@ -87,9 +90,21 @@ dat_in_sum_day <- dat_in %>%
             sd = sd(value),
             max = max(value))
 
+dat_in_sum_day_night <- dat_in %>% 
+  mutate(daytime = case_when(
+    hour >= 6 & hour < 18 ~ "day_time",
+    TRUE ~ "night_time"
+    #hour >= 18 | hour < 6 ~ "night_time"
+  )) %>% 
+  group_by(date, location, daytime, indicator) %>% 
+  summarise(min = min(value),
+            median = median(value),
+            mean = mean(value),
+            sd = sd(value),
+            max = max(value))
+
+
 dat_in_sum_hour <- dat_in %>% 
-  mutate(date = as_date(date_time)) %>% 
-  mutate(hour = hour(date_time)) %>% 
   group_by(date, hour, location, indicator) %>% 
   summarise(min = min(value),
             median = median(value),
@@ -164,8 +179,6 @@ ggsave("plots/plot-appendix-five-minute-intervals.png")
 ```{r plot-daily-avg, fig.cap="Figure caption me!", fig.height=18, fig.width=10}
 
 dat_in_sum_day %>% 
-  #filter(location == "MJC") %>% 
-  #filter(date > "2019-11-15") %>% 
   ggplot(aes(x = date, y = mean, group = indicator, color = indicator)) +
   geom_point(size = 0.8) +
   geom_line() +
@@ -182,13 +195,20 @@ ggsave("plots/plot1-24-hour-average.png")
 
 ```
 
-## Plot: Daily 24-hour average (rolling)
-
-TODO
+## Plot: Day time vs night time averages (6-18, 18-6) 
 
 ```{r}
-# TODO
+
+dat_in_sum_day_night %>% 
+  ggplot(aes(x = date, y = mean, group = indicator, fill = daytime)) +
+  geom_col(position = position_dodge2()) +
+  facet_grid(location ~ indicator, scales = "free") +
+  scale_fill_brewer(type = "qual", palette = 2)
+
+ggsave("plots/plotX-daytime-vs-nighttime.png")
+
 ```
+
 
 
 ## Plot: Hourly average by date and location 
@@ -304,7 +324,7 @@ dat_air_quality_sum %>%
     location == "Administration" 
     & indicator == "pm2.5" 
     & air_quality == "Moderate" ~ exposure_percent - 1,
-
+    
     location == "guardian" 
     & indicator == "pm10" 
     & air_quality == "Good" ~ exposure_percent - 1,
@@ -374,7 +394,6 @@ dat_in %>%
   pivot_wider(names_from = indicator, values_from = peaks) %>% 
   knitr::kable()
 
-vec_hospital_name
 
 ```
 
