@@ -205,7 +205,7 @@ ggsave("plots/plot-appendix-five-minute-intervals.png")
 - Is MJC 0 after 13th November?
 - WHO limits are 24-hour averages
 
-```{r plot-daily-avg, fig.cap="Figure caption me!", fig.height=18, fig.width=10}
+```{r plot-daily-avg, fig.cap="Figure caption me!", fig.height=12, fig.width=10}
 
 dat_in_sum_day %>% 
   ggplot(aes(x = date, y = mean, group = indicator, color = indicator)) +
