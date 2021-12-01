@@ -162,6 +162,10 @@ One sensor was installed at each location, either on the side or on the outside 
 - MJC → Pediatric Surgery/ICU
 - Moyo —>Malnutrition
 
+## Sensor locations
+
+- Guardian Shelter, Ward 3b, Mercy James, and Lighthouse are outside, the rest would be inside
+
 ```{r}
 
 
