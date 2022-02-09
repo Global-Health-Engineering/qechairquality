@@ -11,10 +11,10 @@
   "Packages": {
     "DT": {
       "Package": "DT",
-      "Version": "0.19",
+      "Version": "0.20",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "6df7d86466f183ab0edcd8e6050b38e1"
+      "Hash": "0163cd2ce6c7995005a0fc363d570963"
     },
     "MASS": {
       "Package": "MASS",
@@ -51,6 +51,13 @@
       "Repository": "CRAN",
       "Hash": "dab19adae4440ae55aa8a9d238b246bb"
     },
+    "Rttf2pt1": {
+      "Package": "Rttf2pt1",
+      "Version": "1.3.9",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "da6ab407fa2e5e498ac980f92798cfed"
+    },
     "base64enc": {
       "Package": "base64enc",
       "Version": "0.1-3",
@@ -81,10 +88,10 @@
     },
     "cli": {
       "Package": "cli",
-      "Version": "3.0.1",
+      "Version": "3.1.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "e3ae5d68dea0c55a12ea12a9fda02e61"
+      "Hash": "66a3834e54593c89d8beefb312347e58"
     },
     "clipr": {
       "Package": "clipr",
@@ -109,17 +116,24 @@
     },
     "crayon": {
       "Package": "crayon",
-      "Version": "1.4.1",
+      "Version": "1.4.2",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "e75525c55c70e5f4f78c9960a4b402e9"
+      "Hash": "0a6a65d92bd45b47b94b84244b528d17"
     },
     "crosstalk": {
       "Package": "crosstalk",
-      "Version": "1.1.1",
+      "Version": "1.2.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "2b06f9e415a62b6762e4b8098d2aecbc"
+      "Hash": "6aa54f69598c32177e920eb3402e8293"
+    },
+    "curl": {
+      "Package": "curl",
+      "Version": "4.3.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "022c42d49c28e95d69ca60446dbabf88"
     },
     "digest": {
       "Package": "digest",
@@ -148,6 +162,20 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "ec8ca05cffcc70569eaaad8469d2a3a7"
+    },
+    "extrafont": {
+      "Package": "extrafont",
+      "Version": "0.17",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "7f2f50e8f998a4bea4b04650fc4f2ca8"
+    },
+    "extrafontdb": {
+      "Package": "extrafontdb",
+      "Version": "1.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "a861555ddec7451c653b40e713166c6f"
     },
     "fansi": {
       "Package": "fansi",
@@ -200,10 +228,17 @@
     },
     "glue": {
       "Package": "glue",
-      "Version": "1.4.2",
+      "Version": "1.5.0",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "6efd734b14c6471cfe443345f3e35e29"
+      "Hash": "5ccb956a6d09b4ca448094582f8c7571"
+    },
+    "gridExtra": {
+      "Package": "gridExtra",
+      "Version": "2.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "7d7f283939f563670a697165b2cf5560"
     },
     "gtable": {
       "Package": "gtable",
@@ -473,10 +508,10 @@
     },
     "tibble": {
       "Package": "tibble",
-      "Version": "3.1.5",
+      "Version": "3.1.6",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "36eb05ad4cfdfeaa56f5a9b2a1311efd"
+      "Hash": "8a8f02d1934dfd6431c671361510dd0b"
     },
     "tidyr": {
       "Package": "tidyr",
@@ -533,6 +568,18 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "9c3b3a3f947c7936cea7485349247e5b"
+    },
+    "waffle": {
+      "Package": "waffle",
+      "Version": "1.0.1",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "waffle",
+      "RemoteUsername": "hrbrmstr",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "3f61463e6ab8d088ecff35db7cc1edfe633ee9f3",
+      "Hash": "50c3c422b1061d31431e21a22bb2265d"
     },
     "withr": {
       "Package": "withr",
