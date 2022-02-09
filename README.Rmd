@@ -328,18 +328,7 @@ dat_air_quality_sum %>%
   # manipulate data for purpose of plot
   
   mutate(exposure_percent = case_when(
-    #location == "Administration" 
-    #& indicator == "pm2.5" 
-    #& air_quality == "Moderate" ~ exposure_percent - 1,
-    
-    #location == "Guardian" 
-    #& indicator == "pm10" 
-    #& air_quality == "Good" ~ exposure_percent - 1,
-    #
-    #location == "Guardian" 
-    #& indicator == "pm2.5" 
-    #& air_quality == "Unhealthy" ~ exposure_percent - 1,
-    
+
     location == "AIDS" 
     & indicator == "pm2.5" 
     & air_quality == "Moderate" ~ exposure_percent - 1,
@@ -355,10 +344,6 @@ dat_air_quality_sum %>%
     location == "Malnutrition" 
     & indicator == "pm10" 
     & air_quality == "Good" ~ exposure_percent - 1,
-    
-    # location == "Surgery/ICU" 
-    # & indicator == "pm10" 
-    # & air_quality == "Good" ~ exposure_percent + 1,
     
     location == "Surgery/ICU" 
     & indicator == "pm2.5" 
