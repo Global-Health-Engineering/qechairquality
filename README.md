@@ -28,6 +28,11 @@ outside wall.
 -   MJC → Pediatric Surgery/ICU
 -   Moyo —&gt;Malnutrition
 
+## Sensor locations
+
+-   Guardian Shelter, Ward 3b, Mercy James, and Lighthouse are outside,
+    the rest would be inside
+
 # Data Exploration
 
 TODO List:
@@ -85,14 +90,14 @@ TODO List:
 
 | location       | pm10 | pm2.5 |
 |:---------------|-----:|------:|
-| Administration |    0 |    14 |
-| AIDS           |   50 |  1689 |
+| Administration |    1 |     4 |
+| AIDS           |  676 |   350 |
 | Eyes           |    0 |     0 |
-| Guardian       |   66 |   642 |
-| Malaria        |    6 |    93 |
-| Malnutrition   |    0 |   194 |
-| Men’s          |    0 |   147 |
-| Surgery/ICU    |    1 |   144 |
+| Guardian       |  178 |   359 |
+| Malaria        |   18 |    19 |
+| Malnutrition   |   43 |    18 |
+| Men’s          |   15 |     4 |
+| Surgery/ICU    |   37 |    15 |
 
 ## Plot: Ratio between PM10 and PM2.5 range from minimum to maximum (WIP)
 
