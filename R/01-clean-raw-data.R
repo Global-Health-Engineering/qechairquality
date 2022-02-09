@@ -40,7 +40,7 @@ raw_data_list <- list()
 
 for (i in seq_along(raw_data_xls)) {
   raw_data_list[[i]] <- read_excel(path = here::here(raw_data_xls)[[i]], 
-                                   col_names = c("pm2.5", "pm10", "date_time"), 
+                                   col_names = c("pm10", "pm2.5", "date_time"), 
                                    range = "A1:C10000") %>% 
     mutate(path = raw_data_xls[[i]]) %>% 
     mutate(pm2.5 = as.double(pm2.5)) %>% 
