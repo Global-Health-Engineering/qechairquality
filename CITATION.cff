@@ -1,5 +1,7 @@
 cff-version: 1.2.0
+title: "Manuscript - Malawi Hospital Air Quality Data - Notebook"
 message: "If you use data or software from this package, please cite as stated below"
+type: dataset
 authors:
   - family-names: Chilunga
     given-names: Hope
@@ -13,7 +15,8 @@ authors:
   - family-names: Schöbitz
     given-names: Lars
     orcid: https://orcid.org/0000-0003-2196-5015
-title: "Manuscript - Malawi Hospital Air Quality Data - Notebook"
 version: 0.0.1
 url: https://github.com/Global-Health-Engineering/manuscript-hospital-air-quality
 date-released: 2021-10-25
+
+
