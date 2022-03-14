@@ -328,7 +328,7 @@ dat_air_quality_sum %>%
   # manipulate data for purpose of plot
   
   mutate(exposure_percent = case_when(
-
+    
     location == "AIDS" 
     & indicator == "pm2.5" 
     & air_quality == "Moderate" ~ exposure_percent - 1,
@@ -415,18 +415,70 @@ dat_in %>%
   summarise(mean = mean(value)) %>% 
   pivot_wider(names_from = indicator, 
               values_from = mean) %>% 
+  mutate(p10_pm2.5_ratio = pm10/pm2.5)  %>%
   
-  mutate(p10_pm2.5_ratio = pm10/pm2.5)  %>% 
+  filter((date != "2019-10-14" & date != "2019-10-15" & date != "2019-10-16")
+         | location != "Malnutrition") %>% 
+  
   group_by(date, location) %>% 
   summarise(min = min(p10_pm2.5_ratio),
             max = max(p10_pm2.5_ratio)) %>% 
   
   ggplot(aes(x = date)) +
   geom_linerange(aes(ymin = min, ymax = max)) +
+  labs(x = "hour",
+       title = "Ratio between PM10 and PM2.5 range from minimum to maximum",
+       subtitle = "Each line shows the minimum and maximum per day (range) after calculating the average ratio per hour.
+       NOTE: Does not include 14th to 16th October at location Malnutrition") +
   facet_wrap(~location, ncol = 2)
 
+ggsave("plots/plot-pm10-pm25-ratio.png")
 
 ```
+
+### Plot: Hourly ratio between PM10 and PM2.5 for Malnutrition on 3 days
+
+```{r plot-ratio2, fig.cap="Figure caption me!", fig.height=14, fig.width=10}
+
+dat_malnutrition <- dat_in %>% 
+  mutate(date = as_date(date_time)) %>% 
+  mutate(hour = hour(date_time)) %>% 
+  group_by(date, hour, location, indicator) %>% 
+  summarise(mean = mean(value)) %>% 
+  pivot_wider(names_from = indicator, 
+              values_from = mean) %>% 
+  mutate(p10_pm2.5_ratio = pm10/pm2.5)  %>%
+  
+  filter(location == "Malnutrition") %>% 
+  filter(date == "2019-10-14" | date == "2019-10-15" | date == "2019-10-16") 
+
+
+dat_malnutrition %>% 
+  ggplot(aes(x = as.factor(hour), y = p10_pm2.5_ratio, group = date)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "hour",
+       title = "Hourly ratio between PM10 and PM2.5 for Malnutrition on 3 days") +
+  facet_wrap(~date) 
+
+ggsave("plots/plot-pm10-pm25-ratio-malnutrition-3-days.png")
+
+```
+
+### Table: Hourly ratio between PM10 and PM2.5 for Malnutrition on 3 days
+
+- PM10 significantly rises (by tenfold) during these three days
+- PM25 descreases at the same time
+- The ratio jumps from to 90 from the usual 1 to 5
+
+```{r}
+
+dat_malnutrition %>%
+  mutate(across(where(is.double), round)) %>% 
+  knitr::kable()
+
+```
+
 
 ## Plot: Hourly average by date and location 
 
