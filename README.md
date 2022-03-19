@@ -62,6 +62,7 @@ TODO List:
 ![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 ## Plot: Exposure in hours in categories of hazard
+##Lars I can't see this figure and don't know how to find the figure
 
 <img src="/Users/lschoebitz/Documents/gitrepos/ethz/gh-org-global-health-engineering/manuscript-hospital-air-quality/img/usepa-air-quality-categories.png" width="80%" />
 
