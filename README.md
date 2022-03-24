@@ -77,7 +77,7 @@ TODO List:
 
 ![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
-### Waffle plot - \[@worldhealthorganization2021who\]
+### Waffle plot - (World Health Organization 2021)
 
 ![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
@@ -85,23 +85,51 @@ TODO List:
 
 ![Figure caption me!](README_files/figure-gfm/plot-hazard-expo3-1.png)
 
-## Table: Peaks over the limit for hazardous
+## Table: Peaks over the limit for hazardous (US EPA)
 
--   Peak for PM2.5: 2 x 250.4 = 500.8
--   Peak for PM10: 2 x 424.9 = 849.8
--   Column peaks counts the number of data points above these two limits
-    over all days
+-   Peak for PM2.5: 250.4
+-   Peak for PM10: 424.9
+-   Column peaks counts the number of data points (5 minute intervals
+    between them) above these two limits over all days
 
-| location       | pm10 | pm2.5 |
-|:---------------|-----:|------:|
-| Administration |    1 |     4 |
-| AIDS           |  676 |   350 |
-| Eyes           |    0 |     0 |
-| Guardian       |  178 |   359 |
-| Malaria        |   18 |    19 |
-| Malnutrition   |   43 |    18 |
-| Men’s          |   15 |     4 |
-| Surgery/ICU    |   37 |    15 |
+| location       | count | pm10 | pm2.5 |
+|:---------------|------:|-----:|------:|
+| Administration | 10900 |    1 |     4 |
+| AIDS           | 11448 |  676 |    NA |
+| Eyes           | 11749 |    0 |     0 |
+| Guardian       | 11025 |  178 |    NA |
+| Malaria        | 12030 |   18 |    NA |
+| Malnutrition   | 10890 |   43 |    NA |
+| Men’s          | 11861 |   15 |     4 |
+| Surgery/ICU    | 12192 |   37 |    NA |
+| AIDS           | 11472 |   NA |   350 |
+| Guardian       | 11066 |   NA |   359 |
+| Malaria        | 12031 |   NA |    19 |
+| Malnutrition   | 10891 |   NA |    18 |
+| Surgery/ICU    | 12193 |   NA |    15 |
+
+## Table: Peaks over the limit for hazardous ((World Health Organization 2021))
+
+-   Peak for PM2.5: &gt; 35 Greater interim target 1, Annual
+-   Peak for PM10: &gt; 70 Greater interim target 1, Annual
+-   Column peaks counts the number of data points (5 minute intervals
+    between them) above these two limits over all days
+
+| location       | count | pm10 | pm2.5 |
+|:---------------|------:|-----:|------:|
+| Administration | 10900 |  171 |    94 |
+| AIDS           | 11448 | 4365 |    NA |
+| Eyes           | 11749 |   91 |    14 |
+| Guardian       | 11025 | 4529 |    NA |
+| Malaria        | 12030 |  617 |    NA |
+| Malnutrition   | 10890 |  703 |    NA |
+| Men’s          | 11861 | 1113 |  1236 |
+| Surgery/ICU    | 12192 |  736 |    NA |
+| AIDS           | 11472 |   NA |  3891 |
+| Guardian       | 11066 |   NA |  5314 |
+| Malaria        | 12031 |   NA |   578 |
+| Malnutrition   | 10891 |   NA |   399 |
+| Surgery/ICU    | 12193 |   NA |   749 |
 
 ## Plot: Ratio between PM10 and PM2.5 range from minimum to maximum (WIP)
 
@@ -209,3 +237,17 @@ me!](README_files/figure-gfm/plot-hourly-avg-5.png)![Figure caption
 me!](README_files/figure-gfm/plot-hourly-avg-6.png)![Figure caption
 me!](README_files/figure-gfm/plot-hourly-avg-7.png)![Figure caption
 me!](README_files/figure-gfm/plot-hourly-avg-8.png)
+
+# References
+
+<div id="refs" class="references csl-bib-body hanging-indent">
+
+<div id="ref-worldhealthorganization2021who" class="csl-entry">
+
+World Health Organization. 2021. *WHO Global Air Quality Guidelines:
+Particulate Matter (Pm2.5 and Pm10), Ozone, Nitrogen Dioxide, Sulfur
+Dioxide and Carbon Monoxide*. World Health Organization.
+
+</div>
+
+</div>

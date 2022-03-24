@@ -3,7 +3,7 @@ title: "Manuscript - Malawi Hospital Air Quality Data - Notebook"
 output: github_document
 editor_options: 
   chunk_output_type: console
-bibliography: man-qech-air-quality.bib
+bibliography: man-qech_air-quality.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -624,3 +624,5 @@ for (name in vec_hospital_name) {
 }
 
 ```
+
+# References
