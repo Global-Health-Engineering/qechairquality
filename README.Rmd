@@ -3,6 +3,7 @@ title: "Manuscript - Malawi Hospital Air Quality Data - Notebook"
 output: github_document
 editor_options: 
   chunk_output_type: console
+bibliography: man-qech-air-quality.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -74,6 +75,15 @@ usepa_level_fct <- c("Good",
                      "Very Unhealthy", 
                      "Hazardous")
 
+# define WHO 2021 levels
+
+who_2021_level_fct <- c("Interim target 4", 
+                        "Interim target 3", 
+                        "Interim target 2", 
+                        "Interim target 1", 
+                        "Greater interim target 1")
+
+
 # Data transformation
 
 dat_air_quality <- dat_in %>% 
@@ -94,7 +104,22 @@ dat_air_quality <- dat_in %>%
   )) %>% 
   mutate(air_quality =
            fct_relevel(air_quality, 
-                       levels = usepa_level_fct)) 
+                       levels = usepa_level_fct)) %>% 
+  mutate(air_quality_who_annual = case_when(
+    indicator == "pm2.5" & value <= 10 ~ "Interim target 4",
+    indicator == "pm2.5" & value > 10 & indicator == "pm2.5" & value <= 15 ~ "Interim target 3",
+    indicator == "pm2.5" & value > 15 & indicator == "pm2.5" & value <= 25 ~ "Interim target 2",
+    indicator == "pm2.5" & value > 25 & indicator == "pm2.5" & value <= 35 ~ "Interim target 1", 
+    indicator == "pm2.5" & value > 35 ~ "Greater interim target 1",
+    indicator == "pm10" & value <= 20 ~ "Interim target 4",
+    indicator == "pm10" & value > 20 & indicator == "pm10" & value <= 30 ~ "Interim target 3",
+    indicator == "pm10" & value > 30 & indicator == "pm10" & value <= 50 ~ "Interim target 2",
+    indicator == "pm10" & value > 50 & indicator == "pm10" & value <= 70 ~ "Interim target 1",
+    indicator == "pm10" & value > 70 ~ "Greater interim target 1",
+  )) %>% 
+  mutate(air_quality_who_annual  =
+           fct_relevel(air_quality_who_annual,   
+                       levels = who_2021_level_fct)) 
 
 # Data transformation - summary statistics
 
@@ -128,7 +153,7 @@ dat_in_sum_hour <- dat_in %>%
             sd = sd(value),
             max = max(value))
 
-# Data transformation - air quality summary
+# Data transformation - air quality summary US EPA
 
 dat_air_quality_sum <- dat_air_quality %>% 
   group_by(location, indicator, air_quality) %>% 
@@ -136,6 +161,16 @@ dat_air_quality_sum <- dat_air_quality %>%
   mutate(exposure_mins = n * 5) %>% 
   mutate(exposure_hrs = round(exposure_mins / 60)) %>% 
   select(-n)
+
+# Data transformation - air quality summary US EPA
+
+dat_air_quality_sum_who_2021 <- dat_air_quality %>% 
+  group_by(location, indicator, air_quality_who_annual) %>% 
+  count(air_quality_who_annual) %>% 
+  mutate(exposure_mins = n * 5) %>% 
+  mutate(exposure_hrs = round(exposure_mins / 60)) %>% 
+  select(-n)
+
 
 # data transformation - peaks over twice the limit
 
@@ -312,7 +347,68 @@ dat_air_quality_sum %>%
 
 ```
 
-### Waffle plot (selected)
+### Waffle plot - [@worldhealthorganization2021who]
+
+```{r}
+
+dat_air_quality_sum_who_2021 %>% 
+  #filter(indicator == "pm2.5") %>% 
+  group_by(location, indicator) %>% 
+  mutate(exposure_percent = round(exposure_hrs / sum(exposure_hrs) * 100, 0)) %>% 
+  
+  # manipulate data for purpose of plot
+  
+  #mutate(exposure_percent = case_when(
+  #  
+  #  location == "AIDS" 
+  #  & indicator == "pm2.5" 
+  #  & air_quality == "Moderate" ~ exposure_percent - 1,
+  #  
+  #  location == "AIDS" 
+  #  & indicator == "pm10" 
+#  & air_quality == "Good" ~ exposure_percent - 1,
+#  
+#  location == "Malaria" 
+#  & indicator == "pm2.5" 
+#  & air_quality == "Moderate" ~ exposure_percent + 1,
+#  
+#  location == "Malnutrition" 
+#  & indicator == "pm10" 
+#  & air_quality == "Good" ~ exposure_percent - 1,
+#  
+#  location == "Surgery/ICU" 
+#  & indicator == "pm2.5" 
+#  & air_quality == "Good" ~ exposure_percent + 1,
+#  
+#  TRUE ~ exposure_percent
+
+# )) %>% 
+
+
+ggplot(aes(fill = air_quality_who_annual, values = exposure_percent)) +
+  geom_waffle(color ="white", size = 0.5, n_rows = 5) +
+  coord_equal() +
+  labs(title = "Air quality at eight locations at a Hospital in Malawi",
+       subtitle = "Percent of time exposed per risk category - (1 square = 1 percent in each block)",
+       fill = "WHO 2021 targets (annual)") +
+  scale_fill_brewer(type = "div", palette = "RdYlBu", direction = -1) +
+  scale_x_discrete(expand=c(0,0)) +
+  scale_y_discrete(expand=c(0,0)) +
+  facet_grid(location ~ indicator, switch = "y") +
+  
+  #facet_wrap(~location, ncol = 2) +
+  theme_minimal(base_size = 14) +
+  # help from: https://stackoverflow.com/questions/34749636/left-justify-text-from-multi-line-facet-labels
+  theme(strip.text.x = element_text(hjust = 0),
+        strip.text.y = element_text(vjust = 0))
+
+ggsave("plots/plotX-who-2021-categories.png")
+
+
+```
+
+
+### Waffle plot (selected) - USEPA
 
 ```{r plot-hazard-expo3, fig.cap="Figure caption me!", fig.height=13, fig.width=10}
 
@@ -372,11 +468,11 @@ ggsave("plots/plotX-epa-hazard-categories.png")
 ```
 
 
-## Table: Peaks over the limit for hazardous
+## Table: Peaks over the limit for hazardous (US EPA)
 
-- Peak for PM2.5: 2 x 250.4 = `r 2 * 250.4`
-- Peak for PM10: 2 x 424.9 = `r 2 * 424.9`
-- Column peaks counts the number of data points above these two limits over all days
+- Peak for PM2.5: 250.4 
+- Peak for PM10: 424.9 
+- Column peaks counts the number of data points (5 minute intervals between them) above these two limits over all days
 
 ```{r}
 
@@ -389,6 +485,33 @@ dat_in %>%
   mutate(date = as_date(date_time)) %>% 
   group_by(indicator, location) %>% 
   summarise(
+    count = n(), 
+    peaks = sum(peaks)
+  ) %>% 
+  pivot_wider(names_from = indicator, values_from = peaks) %>% 
+  knitr::kable()
+
+
+```
+
+## Table: Peaks over the limit for hazardous ([@worldhealthorganization2021who])
+
+- Peak for PM2.5: > 35 Greater interim target 1, Annual
+- Peak for PM10: > 70 Greater interim target 1, Annual
+- Column peaks counts the number of data points (5 minute intervals between them) above these two limits over all days
+
+```{r}
+
+dat_in %>% 
+  mutate(peaks = case_when(
+    indicator == "pm2.5" & value >  35 ~ TRUE,
+    indicator == "pm10" & value >  70 ~ TRUE,
+    TRUE ~ FALSE
+  )) %>% 
+  mutate(date = as_date(date_time)) %>% 
+  group_by(indicator, location) %>% 
+  summarise(
+    count = n(), 
     peaks = sum(peaks)
   ) %>% 
   pivot_wider(names_from = indicator, values_from = peaks) %>% 

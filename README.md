@@ -77,7 +77,11 @@ TODO List:
 
 ![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
-### Waffle plot (selected)
+### Waffle plot - \[@worldhealthorganization2021who\]
+
+![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+
+### Waffle plot (selected) - USEPA
 
 ![Figure caption me!](README_files/figure-gfm/plot-hazard-expo3-1.png)
 
