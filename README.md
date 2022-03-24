@@ -63,7 +63,7 @@ TODO List:
 
 ## Plot: Exposure in hours in categories of hazard
 
-<img src="/Users/lschoebitz/Documents/gitrepos/ethz/gh-org-global-health-engineering/manuscript-hospital-air-quality/usepa-air-quality-categories.png" width="80%" />
+![](img/usepa-air-quality-categories.png)
 
 ### Totals (discarded)
 
@@ -75,7 +75,7 @@ TODO List:
 
 ### New plot 1 (discarded)
 
-![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 ### Waffle plot (selected)
 

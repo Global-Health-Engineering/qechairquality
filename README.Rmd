@@ -248,11 +248,7 @@ ggsave("plots/plotX-daytime-vs-nighttime.png")
 
 ## Plot: Exposure in hours in categories of hazard
 
-```{r, out.width="80%"}
-
-knitr::include_graphics(here::here("usepa-air-quality-categories.png"))
-
-```
+![](img/usepa-air-quality-categories.png)
 
 
 ### Totals (discarded)
