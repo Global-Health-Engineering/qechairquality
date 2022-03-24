@@ -250,7 +250,7 @@ ggsave("plots/plotX-daytime-vs-nighttime.png")
 
 ```{r, out.width="80%"}
 
-knitr::include_graphics(here::here("img/usepa-air-quality-categories.png"))
+knitr::include_graphics(here::here("usepa-air-quality-categories.png"))
 
 ```
 

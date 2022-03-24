@@ -63,7 +63,7 @@ TODO List:
 
 ## Plot: Exposure in hours in categories of hazard
 
-<img src="/Users/lschoebitz/Documents/gitrepos/ethz/gh-org-global-health-engineering/manuscript-hospital-air-quality/img/usepa-air-quality-categories.png" width="80%" />
+<img src="/Users/lschoebitz/Documents/gitrepos/ethz/gh-org-global-health-engineering/manuscript-hospital-air-quality/usepa-air-quality-categories.png" width="80%" />
 
 ### Totals (discarded)
 
