@@ -1,4 +1,5 @@
-Manuscript - Malawi Hospital Air Quality Data - Notebook
+Manuscript - It is Unbearable to Breathe Here”: Air Quality, Open
+Incineration, and Misinformation in Blantyre, Malawi
 ================
 
 # Introduction
@@ -20,13 +21,13 @@ outside wall.
 
 ## Hospital locations
 
--   6B—&gt;Men’s Ward
+-   6B—\>Men’s Ward
 -   guardian→ Guardian’s shelter (guardians of patients)
--   Lhouse—&gt;AIDS
+-   Lhouse—\>AIDS
 -   Lions→ Eyes
--   Malaria—&gt;Malaria
+-   Malaria—\>Malaria
 -   MJC → Pediatric Surgery/ICU
--   Moyo —&gt;Malnutrition
+-   Moyo —\>Malnutrition
 
 ## Sensor locations
 
@@ -110,8 +111,8 @@ TODO List:
 
 ## Table: Peaks over the limit for hazardous ((World Health Organization 2021))
 
--   Peak for PM2.5: &gt; 35 Greater interim target 1, Annual
--   Peak for PM10: &gt; 70 Greater interim target 1, Annual
+-   Peak for PM2.5: \> 35 Greater interim target 1, Annual
+-   Peak for PM10: \> 70 Greater interim target 1, Annual
 -   Column peaks counts the number of data points (5 minute intervals
     between them) above these two limits over all days
 
@@ -149,80 +150,80 @@ TODO List:
 -   PM25 descreases at the same time
 -   The ratio jumps from to 90 from the usual 1 to 5
 
-| date       | hour | location     | pm10 | pm2.5 | p10\_pm2.5\_ratio |
-|:-----------|-----:|:-------------|-----:|------:|------------------:|
-| 2019-10-14 |    0 | Malnutrition |   38 |    18 |                 2 |
-| 2019-10-14 |    1 | Malnutrition |   31 |    17 |                 2 |
-| 2019-10-14 |    2 | Malnutrition |   39 |    13 |                 3 |
-| 2019-10-14 |    3 | Malnutrition |   41 |    10 |                 4 |
-| 2019-10-14 |    4 | Malnutrition |   41 |    11 |                 4 |
-| 2019-10-14 |    5 | Malnutrition |   37 |    11 |                 3 |
-| 2019-10-14 |    6 | Malnutrition |   40 |    12 |                 3 |
-| 2019-10-14 |    7 | Malnutrition |   44 |    12 |                 4 |
-| 2019-10-14 |    8 | Malnutrition |   45 |    13 |                 4 |
-| 2019-10-14 |    9 | Malnutrition |   45 |    14 |                 3 |
-| 2019-10-14 |   10 | Malnutrition |   46 |    14 |                 3 |
-| 2019-10-14 |   11 | Malnutrition |   44 |    13 |                 3 |
-| 2019-10-14 |   12 | Malnutrition |   40 |    12 |                 3 |
-| 2019-10-14 |   13 | Malnutrition |   53 |    19 |                 3 |
-| 2019-10-14 |   14 | Malnutrition |   59 |    22 |                 3 |
-| 2019-10-14 |   15 | Malnutrition |  145 |     5 |                27 |
-| 2019-10-14 |   16 | Malnutrition |  302 |     6 |                53 |
-| 2019-10-14 |   17 | Malnutrition |  386 |     6 |                69 |
-| 2019-10-14 |   18 | Malnutrition |  438 |     4 |               113 |
-| 2019-10-14 |   19 | Malnutrition |  354 |     4 |                90 |
-| 2019-10-14 |   20 | Malnutrition |  374 |     4 |                96 |
-| 2019-10-14 |   21 | Malnutrition |  294 |     4 |                80 |
-| 2019-10-14 |   22 | Malnutrition |  287 |     4 |                77 |
-| 2019-10-14 |   23 | Malnutrition |  162 |     4 |                39 |
-| 2019-10-15 |    0 | Malnutrition |  204 |     6 |                34 |
-| 2019-10-15 |    1 | Malnutrition |  258 |     3 |                79 |
-| 2019-10-15 |    2 | Malnutrition |  266 |     4 |                66 |
-| 2019-10-15 |    3 | Malnutrition |  121 |     4 |                33 |
-| 2019-10-15 |    4 | Malnutrition |  114 |     4 |                31 |
-| 2019-10-15 |    5 | Malnutrition |   47 |     4 |                12 |
-| 2019-10-15 |    6 | Malnutrition |   39 |     3 |                12 |
-| 2019-10-15 |    7 | Malnutrition |   69 |     4 |                17 |
-| 2019-10-15 |    8 | Malnutrition |   81 |     3 |                24 |
-| 2019-10-15 |    9 | Malnutrition |   66 |     4 |                18 |
-| 2019-10-15 |   10 | Malnutrition |   64 |     6 |                11 |
-| 2019-10-15 |   11 | Malnutrition |   87 |     4 |                22 |
-| 2019-10-15 |   12 | Malnutrition |   85 |     4 |                23 |
-| 2019-10-15 |   13 | Malnutrition |  119 |     3 |                40 |
-| 2019-10-15 |   14 | Malnutrition |  102 |     3 |                34 |
-| 2019-10-15 |   15 | Malnutrition |  121 |     3 |                35 |
-| 2019-10-15 |   16 | Malnutrition |   99 |     8 |                12 |
-| 2019-10-15 |   17 | Malnutrition |  159 |     7 |                23 |
-| 2019-10-15 |   18 | Malnutrition |  167 |     6 |                28 |
-| 2019-10-15 |   19 | Malnutrition |  134 |     7 |                18 |
-| 2019-10-15 |   20 | Malnutrition |  168 |     6 |                28 |
-| 2019-10-15 |   21 | Malnutrition |  109 |     5 |                21 |
-| 2019-10-15 |   22 | Malnutrition |  124 |     5 |                24 |
-| 2019-10-15 |   23 | Malnutrition |  304 |     5 |                58 |
-| 2019-10-16 |    0 | Malnutrition |  215 |     7 |                33 |
-| 2019-10-16 |    1 | Malnutrition |  210 |     6 |                33 |
-| 2019-10-16 |    2 | Malnutrition |  165 |    22 |                 7 |
-| 2019-10-16 |    3 | Malnutrition |  134 |    14 |                 9 |
-| 2019-10-16 |    4 | Malnutrition |   99 |    11 |                 9 |
-| 2019-10-16 |    5 | Malnutrition |  255 |     7 |                38 |
-| 2019-10-16 |    6 | Malnutrition |   48 |     7 |                 7 |
-| 2019-10-16 |    7 | Malnutrition |   36 |     7 |                 5 |
-| 2019-10-16 |    8 | Malnutrition |   36 |     9 |                 4 |
-| 2019-10-16 |    9 | Malnutrition |   41 |     7 |                 6 |
-| 2019-10-16 |   10 | Malnutrition |   40 |     9 |                 5 |
-| 2019-10-16 |   11 | Malnutrition |   41 |    12 |                 3 |
-| 2019-10-16 |   12 | Malnutrition |   47 |    24 |                 2 |
-| 2019-10-16 |   13 | Malnutrition |   51 |    28 |                 2 |
-| 2019-10-16 |   14 | Malnutrition |   48 |    27 |                 2 |
-| 2019-10-16 |   15 | Malnutrition |   45 |    24 |                 2 |
-| 2019-10-16 |   16 | Malnutrition |   39 |    22 |                 2 |
-| 2019-10-16 |   17 | Malnutrition |   44 |    23 |                 2 |
-| 2019-10-16 |   18 | Malnutrition |   38 |    20 |                 2 |
-| 2019-10-16 |   19 | Malnutrition |   36 |    19 |                 2 |
-| 2019-10-16 |   20 | Malnutrition |   45 |    21 |                 2 |
-| 2019-10-16 |   21 | Malnutrition |   46 |    20 |                 2 |
-| 2019-10-16 |   22 | Malnutrition |   41 |    18 |                 2 |
-| 2019-10-16 |   23 | Malnutrition |   36 |    17 |                 2 |
+| date       | hour | location     | pm10 | pm2.5 | p10_pm2.5_ratio |
+|:-----------|-----:|:-------------|-----:|------:|----------------:|
+| 2019-10-14 |    0 | Malnutrition |   38 |    18 |               2 |
+| 2019-10-14 |    1 | Malnutrition |   31 |    17 |               2 |
+| 2019-10-14 |    2 | Malnutrition |   39 |    13 |               3 |
+| 2019-10-14 |    3 | Malnutrition |   41 |    10 |               4 |
+| 2019-10-14 |    4 | Malnutrition |   41 |    11 |               4 |
+| 2019-10-14 |    5 | Malnutrition |   37 |    11 |               3 |
+| 2019-10-14 |    6 | Malnutrition |   40 |    12 |               3 |
+| 2019-10-14 |    7 | Malnutrition |   44 |    12 |               4 |
+| 2019-10-14 |    8 | Malnutrition |   45 |    13 |               4 |
+| 2019-10-14 |    9 | Malnutrition |   45 |    14 |               3 |
+| 2019-10-14 |   10 | Malnutrition |   46 |    14 |               3 |
+| 2019-10-14 |   11 | Malnutrition |   44 |    13 |               3 |
+| 2019-10-14 |   12 | Malnutrition |   40 |    12 |               3 |
+| 2019-10-14 |   13 | Malnutrition |   53 |    19 |               3 |
+| 2019-10-14 |   14 | Malnutrition |   59 |    22 |               3 |
+| 2019-10-14 |   15 | Malnutrition |  145 |     5 |              27 |
+| 2019-10-14 |   16 | Malnutrition |  302 |     6 |              53 |
+| 2019-10-14 |   17 | Malnutrition |  386 |     6 |              69 |
+| 2019-10-14 |   18 | Malnutrition |  438 |     4 |             113 |
+| 2019-10-14 |   19 | Malnutrition |  354 |     4 |              90 |
+| 2019-10-14 |   20 | Malnutrition |  374 |     4 |              96 |
+| 2019-10-14 |   21 | Malnutrition |  294 |     4 |              80 |
+| 2019-10-14 |   22 | Malnutrition |  287 |     4 |              77 |
+| 2019-10-14 |   23 | Malnutrition |  162 |     4 |              39 |
+| 2019-10-15 |    0 | Malnutrition |  204 |     6 |              34 |
+| 2019-10-15 |    1 | Malnutrition |  258 |     3 |              79 |
+| 2019-10-15 |    2 | Malnutrition |  266 |     4 |              66 |
+| 2019-10-15 |    3 | Malnutrition |  121 |     4 |              33 |
+| 2019-10-15 |    4 | Malnutrition |  114 |     4 |              31 |
+| 2019-10-15 |    5 | Malnutrition |   47 |     4 |              12 |
+| 2019-10-15 |    6 | Malnutrition |   39 |     3 |              12 |
+| 2019-10-15 |    7 | Malnutrition |   69 |     4 |              17 |
+| 2019-10-15 |    8 | Malnutrition |   81 |     3 |              24 |
+| 2019-10-15 |    9 | Malnutrition |   66 |     4 |              18 |
+| 2019-10-15 |   10 | Malnutrition |   64 |     6 |              11 |
+| 2019-10-15 |   11 | Malnutrition |   87 |     4 |              22 |
+| 2019-10-15 |   12 | Malnutrition |   85 |     4 |              23 |
+| 2019-10-15 |   13 | Malnutrition |  119 |     3 |              40 |
+| 2019-10-15 |   14 | Malnutrition |  102 |     3 |              34 |
+| 2019-10-15 |   15 | Malnutrition |  121 |     3 |              35 |
+| 2019-10-15 |   16 | Malnutrition |   99 |     8 |              12 |
+| 2019-10-15 |   17 | Malnutrition |  159 |     7 |              23 |
+| 2019-10-15 |   18 | Malnutrition |  167 |     6 |              28 |
+| 2019-10-15 |   19 | Malnutrition |  134 |     7 |              18 |
+| 2019-10-15 |   20 | Malnutrition |  168 |     6 |              28 |
+| 2019-10-15 |   21 | Malnutrition |  109 |     5 |              21 |
+| 2019-10-15 |   22 | Malnutrition |  124 |     5 |              24 |
+| 2019-10-15 |   23 | Malnutrition |  304 |     5 |              58 |
+| 2019-10-16 |    0 | Malnutrition |  215 |     7 |              33 |
+| 2019-10-16 |    1 | Malnutrition |  210 |     6 |              33 |
+| 2019-10-16 |    2 | Malnutrition |  165 |    22 |               7 |
+| 2019-10-16 |    3 | Malnutrition |  134 |    14 |               9 |
+| 2019-10-16 |    4 | Malnutrition |   99 |    11 |               9 |
+| 2019-10-16 |    5 | Malnutrition |  255 |     7 |              38 |
+| 2019-10-16 |    6 | Malnutrition |   48 |     7 |               7 |
+| 2019-10-16 |    7 | Malnutrition |   36 |     7 |               5 |
+| 2019-10-16 |    8 | Malnutrition |   36 |     9 |               4 |
+| 2019-10-16 |    9 | Malnutrition |   41 |     7 |               6 |
+| 2019-10-16 |   10 | Malnutrition |   40 |     9 |               5 |
+| 2019-10-16 |   11 | Malnutrition |   41 |    12 |               3 |
+| 2019-10-16 |   12 | Malnutrition |   47 |    24 |               2 |
+| 2019-10-16 |   13 | Malnutrition |   51 |    28 |               2 |
+| 2019-10-16 |   14 | Malnutrition |   48 |    27 |               2 |
+| 2019-10-16 |   15 | Malnutrition |   45 |    24 |               2 |
+| 2019-10-16 |   16 | Malnutrition |   39 |    22 |               2 |
+| 2019-10-16 |   17 | Malnutrition |   44 |    23 |               2 |
+| 2019-10-16 |   18 | Malnutrition |   38 |    20 |               2 |
+| 2019-10-16 |   19 | Malnutrition |   36 |    19 |               2 |
+| 2019-10-16 |   20 | Malnutrition |   45 |    21 |               2 |
+| 2019-10-16 |   21 | Malnutrition |   46 |    20 |               2 |
+| 2019-10-16 |   22 | Malnutrition |   41 |    18 |               2 |
+| 2019-10-16 |   23 | Malnutrition |   36 |    17 |               2 |
 
 ## Plot: Hourly average by date and location
 

@@ -1,5 +1,5 @@
 ---
-title: "Manuscript - Malawi Hospital Air Quality Data - Notebook"
+title: "Manuscript - It is Unbearable to Breathe Here”: Air Quality, Open Incineration, and Misinformation in Blantyre, Malawi"
 output: github_document
 editor_options: 
   chunk_output_type: console
