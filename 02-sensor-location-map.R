@@ -10,35 +10,65 @@ library(dplyr)
 library(leaflet)
 library(mapview)
 
-## prep map
+## read data
 
-## icons
-#icons <- awesomeIcons(
-#  icon = 'close-outline',
-#  iconColor = 'black',
-#  library = 'ion',
-#  markerColor = "blue"
-#)
+locations <- readr::read_csv("data/raw/sensor-locations/sensor-locations.csv")
 
+# Create a fire icon
+# Icon from: https://github.com/apancik/public-domain-icons/blob/master/dist/symbol%20fire.svg
 
+fire_icon <- makeIcon(iconUrl = "img/symbol-fire.png", 
+                  iconWidth = 50, 
+                  iconHeight = 50)
 
-map_hosptal_blantyre <- leaflet() %>% 
+# Create a palette that maps factor levels to colors
+pal <- colorFactor(c("#EE4B2B", "navy"), domain = c("sensor", "fire"))
+
+fire_loc <- locations %>% 
+  filter(type == "fire")
+
+sensor_loc <- locations %>% 
+  filter(type == "sensor")
+
+leaflet(sensor_loc) %>% 
   setView(lng = 35.021831999805755, 
           lat = -15.803069709021687,
           zoom = 17) %>% 
+  #addProviderTiles(providers$Stamen) %>% 
   addTiles() %>% 
+  addMarkers(
+    lng = fire_loc$longitude, 
+    lat = fire_loc$latitude,
+    label = fire_loc$location,
+    icon = ~fire_icon,
+    labelOptions = labelOptions(noHide = T,
+                                textsize = "15px",
+                                direction = "bottom",
+                                offset = c(0, 20),
+                                style = list(
+                                  "box-shadow" = "3px 3px rgba(0,0,0,0.25)",
+                                  "border-color" = "rgba(0,0,0,0.5)"
+                                  #"font-style" = "italic"
+                                ))
+    ) %>% 
+  addCircleMarkers(
+    lng = ~longitude, 
+    lat = ~latitude,
+    label = ~location,
+    radius = 16,
+    stroke = FALSE,
+    fillOpacity = 1,
+    color = ~pal(type),
+    #icon = ~fire_icon,  
+    labelOptions = labelOptions(noHide = T,
+                                textsize = "15px",
+                                direction = "bottom",
+                                offset = c(0, 10),
+                                style = list(
+                                  "box-shadow" = "3px 3px rgba(0,0,0,0.25)",
+                                  "border-color" = "rgba(0,0,0,0.5)"
+                                  #"font-style" = "italic"
+                                ))) %>% 
 
-  #addProviderTiles(providers$Stamen.Toner) %>% 
-  addAwesomeMarkers(lng = 35.018831999805755, 
-             lat = -15.803069709021687,
-             label = "Guardian",
-             #icon = icons,  
-             labelOptions = labelOptions(noHide = T,
-                                         textsize = "15px",
-                                         direction = "bottom",
-                                         style = list(
-                                           "box-shadow" = "3px 3px rgba(0,0,0,0.25)",
-                                           "border-color" = "rgba(0,0,0,0.5)",
-                                           "font-style" = "italic"
-                                         )))
+mapshot(file = "figs/map-blantyre-hospital.png")
 
