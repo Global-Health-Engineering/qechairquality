@@ -1,4 +1,4 @@
-location,longitude,latitude,type
+location,long,lat,type
 Guardian,35.0188319998058,-15.8030697090217,sensor
 Malnutrition,35.0216232761848,-15.8040094883693,sensor
 Men’s,35.0206299998635,-15.803243309132,sensor

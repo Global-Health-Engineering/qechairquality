@@ -37,8 +37,8 @@ leaflet(sensor_loc) %>%
   #addProviderTiles(providers$Stamen) %>% 
   addTiles() %>% 
   addMarkers(
-    lng = fire_loc$longitude, 
-    lat = fire_loc$latitude,
+    lng = fire_loc$long, 
+    lat = fire_loc$lat,
     label = fire_loc$location,
     icon = ~fire_icon,
     labelOptions = labelOptions(noHide = T,
@@ -52,8 +52,8 @@ leaflet(sensor_loc) %>%
                                 ))
     ) %>% 
   addCircleMarkers(
-    lng = ~longitude, 
-    lat = ~latitude,
+    lng = ~long, 
+    lat = ~lat,
     label = ~location,
     radius = 16,
     stroke = FALSE,
