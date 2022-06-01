@@ -31,7 +31,7 @@ sensor_loc <- locations %>%
   filter(type == "sensor")
 
 leaflet(sensor_loc) %>% 
-  setView(lng = 35.021831999805755, 
+  setView(lng = 35.021431999805755, 
           lat = -15.803069709021687,
           zoom = 18) %>% 
   #addProviderTiles(providers$Stamen) %>% 
@@ -68,7 +68,7 @@ leaflet(sensor_loc) %>%
                                   "box-shadow" = "3px 3px rgba(0,0,0,0.25)",
                                   "border-color" = "rgba(0,0,0,0.5)"
                                   #"font-style" = "italic"
-                                ))) %>% 
+                                ))) 
 
 mapshot(file = "figs/map-blantyre-hospital.png")
 
