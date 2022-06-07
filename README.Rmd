@@ -235,7 +235,7 @@ dat_in %>%
   theme(panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank()) 
 
-ggsave("plots/plot-appendix-five-minute-intervals.png")
+ggsave("figs/plot-appendix-five-minute-intervals.png")
 
 ```
 
@@ -261,7 +261,7 @@ dat_in_sum_day %>%
   theme(panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank()) 
 
-ggsave("plots/plot1-24-hour-average.png")
+ggsave("figs/plot1-24-hour-average.png")
 
 ```
 
@@ -275,7 +275,7 @@ dat_in_sum_day_night %>%
   facet_grid(location ~ indicator, scales = "free") +
   scale_fill_brewer(type = "qual", palette = 2)
 
-ggsave("plots/plotX-daytime-vs-nighttime.png")
+ggsave("figs/plotX-daytime-vs-nighttime.png")
 
 ```
 
@@ -402,7 +402,7 @@ ggplot(aes(fill = air_quality_who_annual, values = exposure_percent)) +
   theme(strip.text.x = element_text(hjust = 0),
         strip.text.y = element_text(vjust = 0))
 
-ggsave("plots/plotX-who-2021-categories.png")
+ggsave("figs/plotX-who-2021-categories.png")
 
 
 ```
@@ -463,7 +463,7 @@ dat_air_quality_sum %>%
   theme(strip.text.x = element_text(hjust = 0),
         strip.text.y = element_text(vjust = 0))
 
-ggsave("plots/plotX-epa-hazard-categories.png")
+ggsave("figs/plotX-epa-hazard-categories.png")
 
 ```
 
@@ -476,19 +476,27 @@ ggsave("plots/plotX-epa-hazard-categories.png")
 
 ```{r}
 
-dat_in %>% 
+observations_location <- dat_in %>% 
+  select(date_time, location) %>% 
+  unique() %>% 
+  count(location)
+
+no_peaks <- dat_in %>% 
   mutate(peaks = case_when(
     indicator == "pm2.5" & value >  250.4 ~ TRUE,
     indicator == "pm10" & value >  424.9 ~ TRUE,
     TRUE ~ FALSE
   )) %>% 
   mutate(date = as_date(date_time)) %>% 
-  group_by(indicator, location) %>% 
+  group_by(location, indicator) %>% 
   summarise(
-    count = n(), 
     peaks = sum(peaks)
   ) %>% 
-  pivot_wider(names_from = indicator, values_from = peaks) %>% 
+  ungroup() %>% 
+  pivot_wider(names_from = indicator, values_from = peaks) 
+
+observations_location %>% 
+  left_join(no_peaks) %>% 
   knitr::kable()
 
 
@@ -502,7 +510,7 @@ dat_in %>%
 
 ```{r}
 
-dat_in %>% 
+no_peaks_who <- dat_in %>% 
   mutate(peaks = case_when(
     indicator == "pm2.5" & value >  35 ~ TRUE,
     indicator == "pm10" & value >  70 ~ TRUE,
@@ -511,12 +519,14 @@ dat_in %>%
   mutate(date = as_date(date_time)) %>% 
   group_by(indicator, location) %>% 
   summarise(
-    count = n(), 
     peaks = sum(peaks)
   ) %>% 
-  pivot_wider(names_from = indicator, values_from = peaks) %>% 
-  knitr::kable()
+  ungroup() %>% 
+  pivot_wider(names_from = indicator, values_from = peaks) 
 
+observations_location %>% 
+  left_join(no_peaks_who) %>% 
+  knitr::kable()
 
 ```
 
@@ -551,7 +561,7 @@ dat_in %>%
        NOTE: Does not include 14th to 16th October at location Malnutrition") +
   facet_wrap(~location, ncol = 2)
 
-ggsave("plots/plot-pm10-pm25-ratio.png")
+ggsave("figs/plot-pm10-pm25-ratio.png")
 
 ```
 
@@ -580,7 +590,7 @@ dat_malnutrition %>%
        title = "Hourly ratio between PM10 and PM2.5 for Malnutrition on 3 days") +
   facet_wrap(~date) 
 
-ggsave("plots/plot-pm10-pm25-ratio-malnutrition-3-days.png")
+ggsave("figs/plot-pm10-pm25-ratio-malnutrition-3-days.png")
 
 ```
 

@@ -93,21 +93,16 @@ TODO List:
 -   Column peaks counts the number of data points (5 minute intervals
     between them) above these two limits over all days
 
-| location       | count | pm10 | pm2.5 |
+| location       |     n | pm10 | pm2.5 |
 |:---------------|------:|-----:|------:|
 | Administration | 10900 |    1 |     4 |
-| AIDS           | 11448 |  676 |    NA |
+| AIDS           | 11472 |  676 |   350 |
 | Eyes           | 11749 |    0 |     0 |
-| Guardian       | 11025 |  178 |    NA |
-| Malaria        | 12030 |   18 |    NA |
-| Malnutrition   | 10890 |   43 |    NA |
+| Guardian       | 11032 |  178 |   359 |
+| Malaria        | 12031 |   18 |    19 |
+| Malnutrition   | 10637 |   43 |    18 |
 | Men’s          | 11861 |   15 |     4 |
-| Surgery/ICU    | 12192 |   37 |    NA |
-| AIDS           | 11472 |   NA |   350 |
-| Guardian       | 11066 |   NA |   359 |
-| Malaria        | 12031 |   NA |    19 |
-| Malnutrition   | 10891 |   NA |    18 |
-| Surgery/ICU    | 12193 |   NA |    15 |
+| Surgery/ICU    | 12193 |   37 |    15 |
 
 ## Table: Peaks over the limit for hazardous ((World Health Organization 2021))
 
@@ -116,21 +111,16 @@ TODO List:
 -   Column peaks counts the number of data points (5 minute intervals
     between them) above these two limits over all days
 
-| location       | count | pm10 | pm2.5 |
+| location       |     n | pm10 | pm2.5 |
 |:---------------|------:|-----:|------:|
 | Administration | 10900 |  171 |    94 |
-| AIDS           | 11448 | 4365 |    NA |
+| AIDS           | 11472 | 4365 |  3891 |
 | Eyes           | 11749 |   91 |    14 |
-| Guardian       | 11025 | 4529 |    NA |
-| Malaria        | 12030 |  617 |    NA |
-| Malnutrition   | 10890 |  703 |    NA |
+| Guardian       | 11032 | 4529 |  5314 |
+| Malaria        | 12031 |  617 |   578 |
+| Malnutrition   | 10637 |  703 |   399 |
 | Men’s          | 11861 | 1113 |  1236 |
-| Surgery/ICU    | 12192 |  736 |    NA |
-| AIDS           | 11472 |   NA |  3891 |
-| Guardian       | 11066 |   NA |  5314 |
-| Malaria        | 12031 |   NA |   578 |
-| Malnutrition   | 10891 |   NA |   399 |
-| Surgery/ICU    | 12193 |   NA |   749 |
+| Surgery/ICU    | 12193 |  736 |   749 |
 
 ## Plot: Ratio between PM10 and PM2.5 range from minimum to maximum (WIP)
 
