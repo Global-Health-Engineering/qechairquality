@@ -20,8 +20,9 @@ library(lubridate)
 library(ggplot2)
 library(janitor)
 library(tidyr)
-library(waffle)
+library(waffle) # devtools::install_github("hrbrmstr/waffle")
 # add some text
+
 ```
 
 ```{r}
@@ -339,7 +340,7 @@ dat_air_quality_sum %>%
 
 ```
 
-### Waffle plot - [@worldhealthorganization2021who]
+### Waffle plot - [@worldhealthorganization2021who] (used)
 
 ```{r}
 
@@ -350,38 +351,31 @@ dat_air_quality_sum_who_2021 %>%
   
   # manipulate data for purpose of plot
   
-  #mutate(exposure_percent = case_when(
-  #  
-  #  location == "AIDS" 
-  #  & indicator == "pm2.5" 
-  #  & air_quality == "Moderate" ~ exposure_percent - 1,
-  #  
-  #  location == "AIDS" 
-  #  & indicator == "pm10" 
-#  & air_quality == "Good" ~ exposure_percent - 1,
-#  
-#  location == "Malaria" 
-#  & indicator == "pm2.5" 
-#  & air_quality == "Moderate" ~ exposure_percent + 1,
-#  
-#  location == "Malnutrition" 
-#  & indicator == "pm10" 
-#  & air_quality == "Good" ~ exposure_percent - 1,
-#  
-#  location == "Surgery/ICU" 
-#  & indicator == "pm2.5" 
-#  & air_quality == "Good" ~ exposure_percent + 1,
-#  
-#  TRUE ~ exposure_percent
-
-# )) %>% 
-
+  mutate(exposure_percent = case_when(
+    location == "Administration" 
+    & indicator == "pm10"
+    & air_quality_who_annual == "Interim target 2" ~ exposure_percent - 1,
+    
+    location == "Administration" 
+    & indicator == "pm2.5"
+    & air_quality_who_annual == "Interim target 3" ~ exposure_percent + 1,
+    
+    location == "uMoyo" 
+    & indicator == "pm2.5"
+    & air_quality_who_annual == "Interim target 4" ~ exposure_percent - 1,
+    
+    location == "Mercy James" 
+    & indicator == "pm10"
+    & air_quality_who_annual == "Interim target 4" ~ exposure_percent + 1,
+    
+    TRUE ~ exposure_percent
+  )) %>% 
 
 ggplot(aes(fill = air_quality_who_annual, values = exposure_percent)) +
   geom_waffle(color ="white", size = 0.5, n_rows = 5) +
   coord_equal() +
   labs(title = "Air quality at eight locations at a Hospital in Malawi",
-       subtitle = "Percent of time exposed per risk category - (1 square = 1 percent in each block)",
+       subtitle = "Percent of time exposed per target category: 1 square = 1 percent",
        fill = "WHO 2021 targets (annual)") +
   scale_fill_brewer(type = "div", palette = "RdYlBu", direction = -1) +
   scale_x_discrete(expand=c(0,0)) +
@@ -392,7 +386,7 @@ ggplot(aes(fill = air_quality_who_annual, values = exposure_percent)) +
   theme_minimal(base_size = 14) +
   # help from: https://stackoverflow.com/questions/34749636/left-justify-text-from-multi-line-facet-labels
   theme(strip.text.x = element_text(hjust = 0),
-        strip.text.y = element_text(vjust = 0))
+        strip.text.y = element_text(vjust = 0, size = 4))
 
 ggsave("figs/plotX-who-2021-categories.png")
 
@@ -400,7 +394,7 @@ ggsave("figs/plotX-who-2021-categories.png")
 ```
 
 
-### Waffle plot (selected) - USEPA
+### Waffle plot - USEPA (discarded)
 
 ```{r plot-hazard-expo3, fig.cap="Figure caption me!", fig.height=13, fig.width=10}
 
@@ -453,7 +447,7 @@ dat_air_quality_sum %>%
   theme_minimal(base_size = 14) +
   # help from: https://stackoverflow.com/questions/34749636/left-justify-text-from-multi-line-facet-labels
   theme(strip.text.x = element_text(hjust = 0),
-        strip.text.y = element_text(vjust = 0))
+        strip.text.y = element_text(vjust = 0, size = 4))
 
 ggsave("figs/plotX-epa-hazard-categories.png")
 
@@ -570,7 +564,7 @@ dat_malnutrition <- dat_in %>%
               values_from = mean) %>% 
   mutate(p10_pm2.5_ratio = pm10/pm2.5)  %>%
   
-  filter(location == "Malnutrition") %>% 
+  filter(location == "uMoyo") %>% 
   filter(date == "2019-10-14" | date == "2019-10-15" | date == "2019-10-16") 
 
 
