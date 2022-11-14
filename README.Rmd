@@ -27,7 +27,9 @@ library(waffle)
 ```{r}
 
 
-location_vec <- c("Men's", "Guardian", "AIDS", "Eyes", "Malaria", "Surgery/ICU", "Malnutrition")
+location_vec <- c("Ward 6B", "Guardian Shelter", "Lighthouse Clinic", 
+                  "Lions Sight", "Malaria Project", "Mercy James", 
+                  "uMoyo")
 
 dat_in <- read_csv(here::here("data/intermediate/malawi-hospitals-air-quality.csv")) %>%   
   # move to data cleaning process
@@ -186,16 +188,6 @@ The purpose of this document is to perform some initial exploratory data analysi
 Air quality data (PM2.5 and PM10) was collected in roughly 5-minute intervals from eight locations at one hospital over the period of 3 months. The locations are `r knitr::combine_words(vec_hospital_name)`.
 
 One sensor was installed at each location, either on the side or on the outside wall. 
-
-## Hospital locations
-
-- 6B—>Men's Ward
-- guardian→ Guardian's shelter (guardians of patients)
-- Lhouse—>AIDS
-- Lions→ Eyes
-- Malaria—>Malaria
-- MJC → Pediatric Surgery/ICU
-- Moyo —>Malnutrition
 
 ## Sensor locations
 
