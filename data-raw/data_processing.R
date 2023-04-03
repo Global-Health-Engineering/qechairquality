@@ -55,7 +55,6 @@ qechairquality <- bind_rows(raw_data_list) %>%
   unique() %>%
 
   pivot_longer(cols = pm2.5:pm10, names_to = "indicator", values_to = "value") %>%
-  mutate(unit = "uq_m3") %>%
 
   # In location 6B, there are eight dates that are not read completely
   # These data points are removed
