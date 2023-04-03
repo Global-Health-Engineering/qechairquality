@@ -12,32 +12,32 @@ library(mapview)
 
 ## read data
 
-locations <- readr::read_csv("data/raw/sensor-locations/sensor-locations.csv")
+locations <- readr::read_csv("data-raw/sensor-locations.csv")
 
 # Create a fire icon
 # Icon from: https://github.com/apancik/public-domain-icons/blob/master/dist/symbol%20fire.svg
 
-fire_icon <- makeIcon(iconUrl = "img/symbol-fire.png", 
-                  iconWidth = 50, 
+fire_icon <- makeIcon(iconUrl = "img/symbol-fire.png",
+                  iconWidth = 50,
                   iconHeight = 50)
 
 # Create a palette that maps factor levels to colors
 pal <- colorFactor(c("#EE4B2B", "navy"), domain = c("sensor", "fire"))
 
-fire_loc <- locations %>% 
+fire_loc <- locations %>%
   filter(type == "fire")
 
-sensor_loc <- locations %>% 
+sensor_loc <- locations %>%
   filter(type == "sensor")
 
-leaflet(sensor_loc) %>% 
-  setView(lng = 35.021071999805755, 
+leaflet(sensor_loc) %>%
+  setView(lng = 35.021071999805755,
           lat = -15.803269709021687,
-          zoom = 18) %>% 
-  #addProviderTiles(providers$Stamen) %>% 
-  addTiles() %>% 
+          zoom = 18) %>%
+  #addProviderTiles(providers$Stamen) %>%
+  addTiles() %>%
   addMarkers(
-    lng = fire_loc$long, 
+    lng = fire_loc$long,
     lat = fire_loc$lat,
     label = fire_loc$location,
     icon = ~fire_icon,
@@ -50,16 +50,16 @@ leaflet(sensor_loc) %>%
                                   "border-color" = "rgba(0,0,0,0.5)"
                                   #"font-style" = "italic"
                                 ))
-    ) %>% 
+    ) %>%
   addCircleMarkers(
-    lng = ~long, 
+    lng = ~long,
     lat = ~lat,
     label = ~location,
     radius = 16,
     stroke = FALSE,
     fillOpacity = 1,
     color = ~pal(type),
-    #icon = ~fire_icon,  
+    #icon = ~fire_icon,
     labelOptions = labelOptions(noHide = T,
                                 textsize = "15px",
                                 direction = "bottom",
@@ -68,7 +68,7 @@ leaflet(sensor_loc) %>%
                                   "box-shadow" = "3px 3px rgba(0,0,0,0.25)",
                                   "border-color" = "rgba(0,0,0,0.5)"
                                   #"font-style" = "italic"
-                                ))) %>% 
+                                ))) %>%
 
 mapshot(file = "figs/map-blantyre-hospital.png")
 
