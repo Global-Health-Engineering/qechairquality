@@ -36,7 +36,7 @@ location_vec <- c("Ward 6B",
                   "Mercy James", 
                   "uMoyo")
 
-dat_in <- read_csv(here::here("data/intermediate/malawi-hospitals-air-quality.csv")) |>    
+dat_in <- read_csv(here::here("inst/extdata/qechairquality.csv")) |>    
   # move to data cleaning process
   mutate(date = as_date(date_time)) |> 
   mutate(hour = hour(date_time)) |> 
