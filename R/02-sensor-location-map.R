@@ -31,7 +31,7 @@ sensor_loc <- locations %>%
   filter(type == "sensor")
 
 leaflet(sensor_loc) %>% 
-  setView(lng = 35.021231999805755, 
+  setView(lng = 35.021071999805755, 
           lat = -15.803269709021687,
           zoom = 18) %>% 
   #addProviderTiles(providers$Stamen) %>% 
