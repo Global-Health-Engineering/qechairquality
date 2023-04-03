@@ -68,6 +68,10 @@ qechairquality <- bind_rows(raw_data_list) %>%
 
 # write data --------------------------------------------------------------
 
-write_csv(x = qechairquality , file = "data/intermediate/malawi-hospitals-air-quality.csv")
-
 usethis::use_data(qechairquality, overwrite = TRUE)
+
+fs::dir_create(here::here("inst", "extdata"))
+
+write_csv(qechairquality, here::here("inst", "extdata", "qechairquality.csv"))
+
+openxlsx::write.xlsx(qechairquality, here::here("inst", "extdata", "qechairquality.xlsx"))
