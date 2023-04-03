@@ -36,29 +36,29 @@ raw_data_list <- list()
 for (i in seq_along(raw_data_xls)) {
   raw_data_list[[i]] <- read_excel(path = here::here(raw_data_xls)[[i]],
                                    col_names = c("pm10", "pm2.5", "date_time"),
-                                   range = "A1:C10000") %>%
-    mutate(path = raw_data_xls[[i]]) %>%
-    mutate(pm2.5 = as.double(pm2.5)) %>%
+                                   range = "A1:C10000")  |>
+    mutate(path = raw_data_xls[[i]]) |>
+    mutate(pm2.5 = as.double(pm2.5)) |>
     mutate(pm10 = as.double(pm10))
 }
 
 # tidy data ---------------------------------------------------------------
 
-qechairquality <- bind_rows(raw_data_list) %>%
-  drop_na() %>%
+qechairquality <- bind_rows(raw_data_list) |>
+  drop_na() |>
   # reprex help: https://stackoverflow.com/a/35547485/6816220
-  mutate(location = str_extract(string = path, pattern = "(?!.*/).+")) %>%
-  separate(col = location, into = c("id", "location")) %>%
+  mutate(location = str_extract(string = path, pattern = "(?!.*/).+")) |>
+  separate(col = location, into = c("id", "location")) |>
 
   # remove the duplicates
-  select(-path) %>%
-  unique() %>%
+  select(-path) |>
+  unique() |>
 
-  pivot_longer(cols = pm2.5:pm10, names_to = "indicator", values_to = "value") %>%
+  pivot_longer(cols = pm2.5:pm10, names_to = "indicator", values_to = "value") |>
 
   # In location 6B, there are eight dates that are not read completely
   # These data points are removed
-  filter(date_time <= "2020-01-01") %>%
+  filter(date_time <= "2020-01-01") |>
 
   # In location guardian, 34 values for pm2.5 are between 30'000 and 40'000
   # In location guardian, 4 values are exactly 1999.90
