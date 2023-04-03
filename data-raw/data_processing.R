@@ -51,7 +51,7 @@ qechairquality <- bind_rows(raw_data_list) |>
   separate(col = location, into = c("id", "location")) |>
 
   # remove the duplicates
-  select(-path) |>
+  select(-path, -id) |>
   unique() |>
 
   pivot_longer(cols = pm2.5:pm10, names_to = "indicator", values_to = "value") |>

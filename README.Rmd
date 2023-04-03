@@ -61,10 +61,6 @@ dat_in <- read_csv(here::here("inst/extdata/qechairquality.csv")) |>
     TRUE ~ location
   )) 
 
-vec_hospital_id <- dat_in |> 
-  count(id) |> 
-  pull(id)
-
 vec_hospital_name <- dat_in |> 
   count(location) |> 
   pull(location)
