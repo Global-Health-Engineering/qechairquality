@@ -21,21 +21,21 @@ outside wall.
 
 ## Sensor locations
 
--   Guardian Shelter, Ward 3b, Mercy James, and Lighthouse are outside,
-    the rest would be inside
+- Guardian Shelter, Ward 3b, Mercy James, and Lighthouse are outside,
+  the rest would be inside
 
 # Data Exploration
 
 TODO List:
 
--   24 hour average (**DONE**)
--   baseline (not the two peaks) (**not doing**)
--   Hourly average (**DONE**)
--   Exposure in categories of hazard (**DONE**)
--   Peaks over 500 a day (**DONE**)
--   Difference between indoor and outdoor sensors (**not started**)
--   Ratios PM10 / PM25 (differences by location) (**WIP**)
--   Day time vs night time averages (6-18, 18-6) (**DONE**)
+- 24 hour average (**DONE**)
+- baseline (not the two peaks) (**not doing**)
+- Hourly average (**DONE**)
+- Exposure in categories of hazard (**DONE**)
+- Peaks over 500 a day (**DONE**)
+- Difference between indoor and outdoor sensors (**not started**)
+- Ratios PM10 / PM25 (differences by location) (**WIP**)
+- Day time vs night time averages (6-18, 18-6) (**DONE**)
 
 ## Plot: Overview (Appendix)
 
@@ -43,8 +43,8 @@ TODO List:
 
 ## Plot: Daily 24-hour average by date
 
--   Is MJC 0 after 13th November?
--   WHO limits are 24-hour averages
+- Is MJC 0 after 13th November?
+- WHO limits are 24-hour averages
 
 ![Figure caption me!](README_files/figure-gfm/plot-daily-avg-1.png)
 
@@ -78,10 +78,10 @@ TODO List:
 
 ## Table: Peaks over the limit for hazardous (US EPA)
 
--   Peak for PM2.5: 250.4
--   Peak for PM10: 424.9
--   Column peaks counts the number of data points (5 minute intervals
-    between them) above these two limits over all days
+- Peak for PM2.5: 250.4
+- Peak for PM10: 424.9
+- Column peaks counts the number of data points (5 minute intervals
+  between them) above these two limits over all days
 
 | location          |     n | pm10 | pm2.5 |
 |:------------------|------:|-----:|------:|
@@ -96,10 +96,10 @@ TODO List:
 
 ## Table: Peaks over the limit for hazardous ((World Health Organization 2021))
 
--   Peak for PM2.5: \> 35 Greater interim target 1, Annual
--   Peak for PM10: \> 70 Greater interim target 1, Annual
--   Column peaks counts the number of data points (5 minute intervals
-    between them) above these two limits over all days
+- Peak for PM2.5: \> 35 Greater interim target 1, Annual
+- Peak for PM10: \> 70 Greater interim target 1, Annual
+- Column peaks counts the number of data points (5 minute intervals
+  between them) above these two limits over all days
 
 | location          |     n | pm10 | pm2.5 |
 |:------------------|------:|-----:|------:|
@@ -114,9 +114,9 @@ TODO List:
 
 ## Plot: Ratio between PM10 and PM2.5 range from minimum to maximum (WIP)
 
--   Calculation: PM10/PM2.5
--   Each line shows the minimum and maximum per day after calculating
-    the average ratio per hour
+- Calculation: PM10/PM2.5
+- Each line shows the minimum and maximum per day after calculating the
+  average ratio per hour
 
 ![Figure caption me!](README_files/figure-gfm/plot-ratio-1.png)
 
@@ -126,9 +126,9 @@ TODO List:
 
 ### Table: Hourly ratio between PM10 and PM2.5 for Malnutrition on 3 days
 
--   PM10 significantly rises (by tenfold) during these three days
--   PM25 descreases at the same time
--   The ratio jumps from to 90 from the usual 1 to 5
+- PM10 significantly rises (by tenfold) during these three days
+- PM25 descreases at the same time
+- The ratio jumps from to 90 from the usual 1 to 5
 
 | date       | hour | location | pm10 | pm2.5 | p10_pm2.5_ratio |
 |:-----------|-----:|:---------|-----:|------:|----------------:|
@@ -226,7 +226,7 @@ me!](README_files/figure-gfm/plot-hourly-avg-8.png)
 <div id="ref-worldhealthorganization2021who" class="csl-entry">
 
 World Health Organization. 2021. *WHO Global Air Quality Guidelines:
-Particulate Matter (Pm2.5 and Pm10), Ozone, Nitrogen Dioxide, Sulfur
+Particulate Matter (PM2.5 and PM10), Ozone, Nitrogen Dioxide, Sulfur
 Dioxide and Carbon Monoxide*. World Health Organization.
 
 </div>

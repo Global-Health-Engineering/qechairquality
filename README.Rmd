@@ -230,7 +230,8 @@ dat_in |>
   facet_grid(indicator~location) +
   theme_bw(base_size = 14) + 
   theme(panel.grid.minor = element_blank(),
-        panel.grid.major.x = element_blank()) 
+        panel.grid.major.x = element_blank(),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) 
 
 ggsave("figs/plot-appendix-five-minute-intervals.png")
 
