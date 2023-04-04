@@ -1,0 +1,23 @@
+---
+title: "manuscript"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{manuscript}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+editor_options: 
+  chunk_output_type: console
+bibliography: man-qech_air-quality.bib
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(qechairquality)
+```
+
