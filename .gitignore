@@ -45,3 +45,4 @@ __MACOSX
 # folders
 manuscript/
 .Rproj.user
+inst/doc
