@@ -1,22 +1,54 @@
+# -----------------------------------------------------------
+# CITATION file created with {cffr} R package, v0.4.1
+# See also: https://docs.ropensci.org/cffr/
+# -----------------------------------------------------------
+ 
 cff-version: 1.2.0
-title: "Manuscript - Malawi Hospital Air Quality Data - Notebook"
-message: "If you use data or software from this package, please cite as stated below"
-type: dataset
+message: 'To cite package "qechairquality" in publications use:'
+type: software
+license: CC-BY-4.0
+title: 'qechairquality: Air Quality Data at Queen Elizabeth Central Hospital (QECH),
+  Blantyre, Malawi.'
+version: 0.0.0.9000
+abstract: Air quality data with measurements in 5-minute intervals for particulate
+  matter (PM 2.5 & PM 10) at eight sensor locations over two months at Queen Elizabeth
+  Central Hospital (QECH) in Blantyre, Malawi.
 authors:
-  - family-names: Chilunga
-    given-names: Hope
-    orcid: https://orcid.org/0000-0000-0000-0000
-  - family-names: Kalina
-    given-names: Marc
-    orcid: https://orcid.org/0000-0002-6335-3845 
-  - family-names: Tilley
-    given-names: Elizabeth
-    orcid: https://orcid.org/0000-0002-2095-9724
-  - family-names: Schöbitz
-    given-names: Lars
-    orcid: https://orcid.org/0000-0003-2196-5015
-version: 0.0.1
-url: https://github.com/Global-Health-Engineering/manuscript-hospital-air-quality
-date-released: 2021-10-25
-
-
+- family-names: Schöbitz
+  given-names: Lars
+  email: lschoebitz@ethz.ch
+  orcid: https://orcid.org/0000-0003-2196-5015
+- family-names: Tilley
+  given-names: Elizabeth
+  email: tilleye@ethz.ch
+  orcid: https://orcid.org/0000-0002-2095-9724
+- family-names: Kalina
+  given-names: Marc
+  email: mkalina@ethz.ch
+  orcid: https://orcid.org/0000-0002-6335-3845
+- family-names: Kwangulero
+  given-names: Jonathan
+  email: Kwangerlo@gmail.com
+  orcid: https://orcid.org/0000-0002-4050-5121
+- family-names: Chilunga
+  given-names: Hope
+  email: hchilunga@poly.ac.mw
+  orcid: https://orcid.org/0000-0003-4216-6319
+contact:
+- family-names: Schöbitz
+  given-names: Lars
+  email: lschoebitz@ethz.ch
+  orcid: https://orcid.org/0000-0003-2196-5015
+references:
+- type: software
+  title: 'R: A Language and Environment for Statistical Computing'
+  notes: Depends
+  url: https://www.R-project.org/
+  authors:
+  - name: R Core Team
+  location:
+    name: Vienna, Austria
+  year: '2023'
+  institution:
+    name: R Foundation for Statistical Computing
+  version: '>= 2.10'

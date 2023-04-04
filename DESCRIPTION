@@ -1,12 +1,39 @@
 Package: qechairquality
-Title: What the Package Does (One Line, Title Case)
+Title: Air Quality Data at Queen Elizabeth Central Hospital (QECH), Blantyre, Malawi. 
 Version: 0.0.0.9000
-Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+Authors@R: c(
+    person(given = "Lars",
+           family = "Schöbitz",
+           email = "lschoebitz@ethz.ch",
+           role = c("cre"),
+           comment = c(ORCID = "0000-0003-2196-5015")),
+    person(given = "Elizabeth",
+           family = "Tilley",
+           email = "tilleye@ethz.ch",
+           role = c("aut"),
+           comment = c(ORCID = "0000-0002-2095-9724")),
+    person(given = "Marc",
+           family = "Kalina",
+           email = "mkalina@ethz.ch",
+           role = c("aut"),
+           comment = c(ORCID = "0000-0002-6335-3845")),
+    person(given = "Jonathan",
+           family = "Kwangulero",
+           email = "Kwangerlo@gmail.com",
+           role = c("aut"),
+           comment = c(ORCID = "0000-0002-4050-5121")),
+    person(given = "Hope",
+           family = "Chilunga",
+           email = "hchilunga@poly.ac.mw",
+           role = c("aut"),
+           comment = c(ORCID = "0000-0003-4216-6319")),
+    person(given = "Global Health Engineering, ETH Zurich",
+           role = c("fnd"))
+           )
+Description: Air quality data with measurements in 5-minute intervals for 
+    particulate matter (PM 2.5 & PM 10) at eight sensor locations over two 
+    months at Queen Elizabeth Central Hospital (QECH) in Blantyre, Malawi.
+License: CC BY 4.0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.2
