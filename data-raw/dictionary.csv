@@ -1,4 +1,4 @@
-directory, file_name, variable_name, variable_type, description.
+directory, file_name, variable_name, variable_type, description
 data, qechairquality.rda, date_time, dttm, Timestamp of the air quality measurement.
 data, qechairquality.rda, id, character, Internal identification for sensor location.
 data, qechairquality.rda, location, Label for sensor location.
