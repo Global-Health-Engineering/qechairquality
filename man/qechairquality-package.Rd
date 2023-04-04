@@ -2,8 +2,8 @@
 % Please edit documentation in R/qechairquality-package.R
 \docType{package}
 \name{qechairquality-package}
-\alias{qechairquality}
 \alias{qechairquality-package}
+\alias{_PACKAGE}
 \title{qechairquality: Air Quality Data at Queen Elizabeth Central Hospital (QECH), Blantyre, Malawi}
 \description{
 Air quality data with measurements in 5-minute intervals for particulate matter (PM 2.5 & PM 10) at eight sensor locations over two months at Queen Elizabeth Central Hospital (QECH) in Blantyre, Malawi.
