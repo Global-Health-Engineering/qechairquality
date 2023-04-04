@@ -3,8 +3,8 @@ title: "manuscript"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{manuscript}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
 bibliography: man-qech_air-quality.bib
@@ -13,11 +13,690 @@ bibliography: man-qech_air-quality.bib
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE
 )
 ```
 
 ```{r setup}
+# data
 library(qechairquality)
+
+# required packages
+library(readr)
+library(dplyr)
+library(DT)
+library(forcats)
+library(lubridate)
+library(ggplot2)
+library(janitor)
+library(tidyr)
+library(waffle) 
+library(leaflet)
+library(mapview)
 ```
 
+```{r}
+
+
+location_vec <- c("Ward 6B", 
+                  "Guardian Shelter", 
+                  "Lighthouse Clinic", 
+                  "Lions Sight", 
+                  "Malaria Project", 
+                  "Mercy James", 
+                  "uMoyo")
+
+dat_in <- read_csv(here::here("inst/extdata/qechairquality.csv")) |>    
+  # move to data cleaning process
+  mutate(date = as_date(date_time)) |> 
+  mutate(hour = hour(date_time)) |> 
+  # remove values above 1000, as they could not plausibly be this high
+  filter(value <= 1000) |> 
+  # not all sensors were installed on the same day or stopped 
+  # collecting data on the same day. 
+  # define a daterange for entire dataset
+  filter(date_time >= "2019-10-05 00:00:00",
+         date_time <= "2019-11-25 00:00:00") |> 
+  ## rename locations to meaningful names
+  mutate(location = case_when(
+    location == "6B" ~ location_vec[[1]],
+    location == "guardian" ~ location_vec[[2]],
+    location == "Lhouse" ~ location_vec[[3]],
+    location == "Lions" ~ location_vec[[4]],
+    location == "MJC" ~ location_vec[[6]],
+    location == "Moyo" ~ location_vec[[7]],
+    TRUE ~ location
+  )) 
+
+vec_hospital_name <- dat_in |> 
+  count(location) |> 
+  pull(location)
+
+
+```
+
+```{r}
+
+# location level definition
+
+
+# define US EPA levels for air quality
+usepa_level_fct <- c("Good", 
+                     "Moderate", 
+                     "Unhealthy for Sensitive Groups", 
+                     "Unhealthy", 
+                     "Very Unhealthy", 
+                     "Hazardous")
+
+# define WHO 2021 levels
+
+who_2021_level_fct <- c("Interim target 4", 
+                        "Interim target 3", 
+                        "Interim target 2", 
+                        "Interim target 1", 
+                        "Greater interim target 1")
+
+
+# Data transformation
+
+dat_air_quality <- dat_in |> 
+  
+  mutate(air_quality = case_when(
+    indicator == "pm2.5" & value <= 12 ~ "Good",
+    indicator == "pm2.5" & value > 12 & indicator == "pm2.5" & value <= 35.4 ~ "Moderate",
+    indicator == "pm2.5" & value > 35.4 & indicator == "pm2.5" & value <= 55.4 ~ "Unhealthy for Sensitive Groups",
+    indicator == "pm2.5" & value > 55.4 & indicator == "pm2.5" & value <= 150.4 ~ "Unhealthy",
+    indicator == "pm2.5" & value > 150.4 & indicator == "pm2.5" & value <= 250.4 ~ "Very Unhealthy",
+    indicator == "pm2.5" & value > 250.4 ~ "Hazardous",
+    indicator == "pm10" & value <= 54.9 ~ "Good",
+    indicator == "pm10" & value > 54.9 & indicator == "pm10" & value <= 154.9 ~ "Moderate",
+    indicator == "pm10" & value > 154.9 & indicator == "pm10" & value <= 254.9 ~ "Unhealthy for Sensitive Groups",
+    indicator == "pm10" & value > 254.9 & indicator == "pm10" & value <= 354.9 ~ "Unhealthy",
+    indicator == "pm10" & value > 354.9 & indicator == "pm10" & value <= 424.9 ~ "Very Unhealthy",
+    indicator == "pm10" & value > 424.9 ~ "Hazardous",
+  )) |> 
+  mutate(air_quality =
+           fct_relevel(air_quality, 
+                       levels = usepa_level_fct)) |> 
+  mutate(air_quality_who_annual = case_when(
+    indicator == "pm2.5" & value <= 10 ~ "Interim target 4",
+    indicator == "pm2.5" & value > 10 & indicator == "pm2.5" & value <= 15 ~ "Interim target 3",
+    indicator == "pm2.5" & value > 15 & indicator == "pm2.5" & value <= 25 ~ "Interim target 2",
+    indicator == "pm2.5" & value > 25 & indicator == "pm2.5" & value <= 35 ~ "Interim target 1", 
+    indicator == "pm2.5" & value > 35 ~ "Greater interim target 1",
+    indicator == "pm10" & value <= 20 ~ "Interim target 4",
+    indicator == "pm10" & value > 20 & indicator == "pm10" & value <= 30 ~ "Interim target 3",
+    indicator == "pm10" & value > 30 & indicator == "pm10" & value <= 50 ~ "Interim target 2",
+    indicator == "pm10" & value > 50 & indicator == "pm10" & value <= 70 ~ "Interim target 1",
+    indicator == "pm10" & value > 70 ~ "Greater interim target 1",
+  )) |> 
+  mutate(air_quality_who_annual  =
+           fct_relevel(air_quality_who_annual,   
+                       levels = who_2021_level_fct)) 
+
+# Data transformation - summary statistics
+
+dat_in_sum_day <- dat_in |> 
+  group_by(date, location, indicator) |> 
+  summarise(min = min(value),
+            median = median(value),
+            mean = mean(value),
+            sd = sd(value),
+            max = max(value))
+
+dat_in_sum_day_night <- dat_in |> 
+  mutate(daytime = case_when(
+    hour >= 6 & hour < 18 ~ "day_time",
+    TRUE ~ "night_time"
+    #hour >= 18 | hour < 6 ~ "night_time"
+  )) |> 
+  group_by(date, location, daytime, indicator) |> 
+  summarise(min = min(value),
+            median = median(value),
+            mean = mean(value),
+            sd = sd(value),
+            max = max(value))
+
+
+dat_in_sum_hour <- dat_in |> 
+  group_by(date, hour, location, indicator) |> 
+  summarise(min = min(value),
+            median = median(value),
+            mean = mean(value),
+            sd = sd(value),
+            max = max(value))
+
+# Data transformation - air quality summary US EPA
+
+dat_air_quality_sum <- dat_air_quality |> 
+  group_by(location, indicator, air_quality) |> 
+  count(air_quality) |> 
+  mutate(exposure_mins = n * 5) |> 
+  mutate(exposure_hrs = round(exposure_mins / 60)) |> 
+  select(-n)
+
+# Data transformation - air quality summary US EPA
+
+dat_air_quality_sum_who_2021 <- dat_air_quality |> 
+  group_by(location, indicator, air_quality_who_annual) |> 
+  count(air_quality_who_annual) |> 
+  mutate(exposure_mins = n * 5) |> 
+  mutate(exposure_hrs = round(exposure_mins / 60)) |> 
+  select(-n)
+
+
+# data transformation - peaks over twice the limit
+
+
+```
+
+# Introduction
+
+The purpose of this document is to perform some initial exploratory data analysis for air quality data from Malawi. Based on this analysis, in-depth analysis will be performed and publication ready figures can be produced. 
+
+# Data 
+
+Air quality data (PM2.5 and PM10) was collected in roughly 5-minute intervals from eight locations at one hospital over the period of 3 months. The locations are `r knitr::combine_words(vec_hospital_name)`.
+
+One sensor was installed at each location, either on the side or on the outside wall. 
+
+## Sensor locations
+
+- Guardian Shelter, Ward 3b, Mercy James, and Lighthouse are outside, the rest would be inside
+
+```{r}
+
+
+```
+
+
+# Data Exploration
+
+TODO List: 
+
+- 24 hour average (**DONE**)
+- baseline (not the two peaks) (**not doing**)
+- Hourly average (**DONE**)
+- Exposure in categories of hazard (**DONE**)
+- Peaks over 500 a day (**DONE**)
+- Difference between indoor and outdoor sensors (**not started**)
+- Ratios PM10 / PM25 (differences by location) (**WIP**)
+- Day time vs night time averages (6-18, 18-6)  (**DONE**)
+
+## Map: Sensor locations
+
+```{r}
+
+# Create a fire icon
+# Icon from: https://github.com/apancik/public-domain-icons/blob/master/dist/symbol%20fire.svg
+
+fire_icon <- makeIcon(iconUrl = "img/symbol-fire.png",
+                  iconWidth = 50,
+                  iconHeight = 50)
+
+# Create a palette that maps factor levels to colors
+pal <- colorFactor(c("#EE4B2B", "navy"), domain = c("sensor", "fire"))
+
+fire_loc <- locations %>%
+  filter(type == "fire")
+
+sensor_loc <- locations %>%
+  filter(type == "sensor")
+
+leaflet(sensor_loc) %>%
+  setView(lng = 35.021071999805755,
+          lat = -15.803269709021687,
+          zoom = 18) %>%
+  #addProviderTiles(providers$Stamen) %>%
+  addTiles() %>%
+  addMarkers(
+    lng = fire_loc$long,
+    lat = fire_loc$lat,
+    label = fire_loc$location,
+    icon = ~fire_icon,
+    labelOptions = labelOptions(noHide = T,
+                                textsize = "15px",
+                                direction = "bottom",
+                                offset = c(0, 20),
+                                style = list(
+                                  "box-shadow" = "3px 3px rgba(0,0,0,0.25)",
+                                  "border-color" = "rgba(0,0,0,0.5)"
+                                  #"font-style" = "italic"
+                                ))
+    ) %>%
+  addCircleMarkers(
+    lng = ~long,
+    lat = ~lat,
+    label = ~location,
+    radius = 16,
+    stroke = FALSE,
+    fillOpacity = 1,
+    color = ~pal(type),
+    #icon = ~fire_icon,
+    labelOptions = labelOptions(noHide = T,
+                                textsize = "15px",
+                                direction = "bottom",
+                                offset = c(0, 10),
+                                style = list(
+                                  "box-shadow" = "3px 3px rgba(0,0,0,0.25)",
+                                  "border-color" = "rgba(0,0,0,0.5)"
+                                  #"font-style" = "italic"
+                                ))) %>%
+
+mapshot(file = "figs/map-blantyre-hospital.png")
+```
+
+
+## Plot: Overview (Appendix)
+
+```{r plot-overview, fig.cap="Figure caption me!", fig.height=18, fig.width=10}
+
+dat_in |> 
+  ggplot(aes(x = date_time, y = value)) +
+  geom_line(alpha = 0.5) +
+  labs(title = "Hospital Air Quality",
+       subtitle = "PM2.5 and PM10 measurements in 5-min intervals at eight locations") +
+  ylab(bquote(uq/m^3)) +
+  facet_grid(indicator~location) +
+  theme_bw(base_size = 14) + 
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank(),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) 
+
+# # ggsave("figs/plot-appendix-five-minute-intervals.png")
+
+```
+
+## Plot: Daily 24-hour average by date
+
+- Is MJC 0 after 13th November?
+- WHO limits are 24-hour averages
+
+```{r plot-daily-avg, fig.cap="Figure caption me!", fig.height=12, fig.width=10}
+
+dat_in_sum_day |> 
+  ggplot(aes(x = date, y = mean, group = indicator, color = indicator)) +
+  geom_point(size = 0.8) +
+  geom_line() +
+  labs(title = "Hospital Air Quality",
+       subtitle = "Average 24-hour PM2.5 and PM10 concentrations at eight locations",
+       x = NULL) +
+  ylab(bquote(uq/m^3)) +
+  facet_wrap(~location, ncol = 4) + 
+  scale_y_continuous(limits = c(0, 400)) +
+  scale_color_brewer(type = "qual", palette = 2) + 
+  theme_bw(base_size = 14) + 
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank()) 
+
+# # ggsave("figs/plot1-24-hour-average.png")
+
+```
+
+## Plot: Day time vs night time averages (6-18, 18-6) 
+
+```{r}
+
+dat_in_sum_day_night |> 
+  ggplot(aes(x = date, y = mean, group = indicator, fill = daytime)) +
+  geom_col(position = position_dodge2()) +
+  facet_grid(location ~ indicator, scales = "free") +
+  scale_fill_brewer(type = "qual", palette = 2)
+
+# # ggsave("figs/plotX-daytime-vs-nighttime.png")
+
+```
+
+
+
+## Plot: Exposure in hours in categories of hazard
+
+![](img/usepa-air-quality-categories.png)
+
+
+### Totals (discarded)
+
+```{r plot-hazard-expo, fig.cap="Figure caption me!", fig.height=12, fig.width=12}
+
+dat_air_quality_sum |> 
+  ggplot(aes(x = air_quality, y = exposure_hrs, fill = location)) +
+  geom_col(position = position_dodge()) +
+  scale_fill_brewer(type = "qual") + 
+  facet_grid(indicator ~ location) +
+  coord_flip() +
+  labs(title = "Air quality at locations at a Hospital Malawi",
+       subtitle = "Hours of exposure against PM2.5 and PM10 categorised by USEPA standards",
+       y = "Exposure [hours]",
+       x = NULL,
+       fill = "Location") +
+  theme_minimal(base_size = 14) +
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank())
+
+```
+
+### Percent (discarded)
+
+```{r plot-hazard-expo2, fig.cap="Figure caption me!", fig.height=12, fig.width=12}
+
+dat_air_quality_sum |> 
+  group_by(location, indicator) |> 
+  mutate(exposure_percent = exposure_hrs / sum(exposure_hrs) * 100) |> 
+  ggplot(aes(x = air_quality, y = exposure_percent, fill = indicator)) +
+  geom_col(position = position_dodge()) +
+  scale_fill_brewer(type = "qual", palette = 2) + 
+  facet_grid(location ~ indicator) +
+  coord_flip() +
+  labs(title = "Air quality at locations at a Hospital Malawi",
+       subtitle = "Hours of exposure against PM2.5 and PM10 categorised by USEPA standards",
+       y = "Exposure [percent]",
+       x = NULL,
+       caption = "Data and analysis by @ETH_GHE",
+       fill = "Location") +
+  theme_bw(base_size = 14) +
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank())
+
+```
+
+### New plot 1 (discarded)
+
+```{r}
+
+dat_air_quality_sum |> 
+  group_by(location, indicator) |> 
+  mutate(exposure_percent = exposure_hrs / sum(exposure_hrs) * 100) |> 
+  
+  ggplot(aes(x = air_quality, y = exposure_percent, color = location)) +
+  geom_point(size = 6) +
+  coord_flip() +
+  scale_color_brewer(type = "qual", palette = 2) + 
+  facet_wrap(~indicator, ncol = 4)
+
+```
+
+### Waffle plot - [@worldhealthorganization2021who] (used)
+
+```{r}
+
+dat_air_quality_sum_who_2021 |> 
+  #filter(indicator == "pm2.5") |> 
+  group_by(location, indicator) |> 
+  mutate(exposure_percent = round(exposure_hrs / sum(exposure_hrs) * 100, 0)) |> 
+  
+  # manipulate data for purpose of plot
+  
+  mutate(exposure_percent = case_when(
+    location == "Administration" 
+    & indicator == "pm10"
+    & air_quality_who_annual == "Interim target 2" ~ exposure_percent - 1,
+    
+    location == "Administration" 
+    & indicator == "pm2.5"
+    & air_quality_who_annual == "Interim target 3" ~ exposure_percent + 1,
+    
+    location == "uMoyo" 
+    & indicator == "pm2.5"
+    & air_quality_who_annual == "Interim target 4" ~ exposure_percent - 1,
+    
+    location == "Mercy James" 
+    & indicator == "pm10"
+    & air_quality_who_annual == "Interim target 4" ~ exposure_percent + 1,
+    
+    TRUE ~ exposure_percent
+  )) |> 
+
+ggplot(aes(fill = air_quality_who_annual, values = exposure_percent)) +
+  geom_waffle(color ="white", size = 0.5, n_rows = 5) +
+  coord_equal() +
+  labs(title = "Air quality at eight locations at a Hospital in Malawi",
+       subtitle = "Percent of time exposed per target category: 1 square = 1 percent",
+       fill = "WHO 2021 targets (annual)") +
+  scale_fill_brewer(type = "div", palette = "RdYlBu", direction = -1) +
+  scale_x_discrete(expand=c(0,0)) +
+  scale_y_discrete(expand=c(0,0)) +
+  facet_grid(location ~ indicator, switch = "y") +
+  
+  #facet_wrap(~location, ncol = 2) +
+  theme_minimal(base_size = 14) +
+  # help from: https://stackoverflow.com/questions/34749636/left-justify-text-from-multi-line-facet-labels
+  theme(strip.text.x = element_text(hjust = 0),
+        strip.text.y = element_text(vjust = 0, size = 4))
+
+# ggsave("figs/plotX-who-2021-categories.png")
+
+
+```
+
+
+### Waffle plot - USEPA (discarded)
+
+```{r plot-hazard-expo3, fig.cap="Figure caption me!", fig.height=13, fig.width=10}
+
+dat_air_quality_sum |> 
+  #filter(indicator == "pm2.5") |> 
+  group_by(location, indicator) |> 
+  mutate(exposure_percent = round(exposure_hrs / sum(exposure_hrs) * 100, 0)) |> 
+  
+  # manipulate data for purpose of plot
+  
+  mutate(exposure_percent = case_when(
+    
+    location == "AIDS" 
+    & indicator == "pm2.5" 
+    & air_quality == "Moderate" ~ exposure_percent - 1,
+    
+    location == "AIDS" 
+    & indicator == "pm10" 
+    & air_quality == "Good" ~ exposure_percent - 1,
+    
+    location == "Malaria" 
+    & indicator == "pm2.5" 
+    & air_quality == "Moderate" ~ exposure_percent + 1,
+    
+    location == "Malnutrition" 
+    & indicator == "pm10" 
+    & air_quality == "Good" ~ exposure_percent - 1,
+    
+    location == "Surgery/ICU" 
+    & indicator == "pm2.5" 
+    & air_quality == "Good" ~ exposure_percent + 1,
+    
+    TRUE ~ exposure_percent
+    
+  )) |> 
+  
+  
+  ggplot(aes(fill = air_quality, values = exposure_percent)) +
+  geom_waffle(color ="white", size = 0.5, n_rows = 5) +
+  coord_equal() +
+  labs(title = "Air quality at eight locations at a Hospital in Malawi",
+       subtitle = "Percent of time exposed per risk category - (1 square = 1 percent in each block)",
+       fill = "USEPA Categories") +
+  scale_fill_brewer(type = "div", palette = "RdYlBu", direction = -1) +
+  scale_x_discrete(expand=c(0,0)) +
+  scale_y_discrete(expand=c(0,0)) +
+  facet_grid(location ~ indicator, switch = "y") +
+  
+  #facet_wrap(~location, ncol = 2) +
+  theme_minimal(base_size = 14) +
+  # help from: https://stackoverflow.com/questions/34749636/left-justify-text-from-multi-line-facet-labels
+  theme(strip.text.x = element_text(hjust = 0),
+        strip.text.y = element_text(vjust = 0, size = 4))
+
+# ggsave("figs/plotX-epa-hazard-categories.png")
+
+```
+
+
+## Table: Peaks over the limit for hazardous (US EPA)
+
+- Peak for PM2.5: 250.4 
+- Peak for PM10: 424.9 
+- Column peaks counts the number of data points (5 minute intervals between them) above these two limits over all days
+
+```{r}
+
+observations_location <- dat_in |> 
+  select(date_time, location) |> 
+  unique() |> 
+  count(location)
+
+no_peaks <- dat_in |> 
+  mutate(peaks = case_when(
+    indicator == "pm2.5" & value >  250.4 ~ TRUE,
+    indicator == "pm10" & value >  424.9 ~ TRUE,
+    TRUE ~ FALSE
+  )) |> 
+  mutate(date = as_date(date_time)) |> 
+  group_by(location, indicator) |> 
+  summarise(
+    peaks = sum(peaks)
+  ) |> 
+  ungroup() |> 
+  pivot_wider(names_from = indicator, values_from = peaks) 
+
+observations_location |> 
+  left_join(no_peaks) |> 
+  knitr::kable()
+
+
+```
+
+## Table: Peaks over the limit for hazardous ([@worldhealthorganization2021who])
+
+- Peak for PM2.5: > 35 Greater interim target 1, Annual
+- Peak for PM10: > 70 Greater interim target 1, Annual
+- Column peaks counts the number of data points (5 minute intervals between them) above these two limits over all days
+
+```{r}
+
+no_peaks_who <- dat_in |> 
+  mutate(peaks = case_when(
+    indicator == "pm2.5" & value >  35 ~ TRUE,
+    indicator == "pm10" & value >  70 ~ TRUE,
+    TRUE ~ FALSE
+  )) |> 
+  mutate(date = as_date(date_time)) |> 
+  group_by(indicator, location) |> 
+  summarise(
+    peaks = sum(peaks)
+  ) |> 
+  ungroup() |> 
+  pivot_wider(names_from = indicator, values_from = peaks) 
+
+observations_location |> 
+  left_join(no_peaks_who) |> 
+  knitr::kable()
+
+```
+
+## Plot: Ratio between PM10 and PM2.5 range from minimum to maximum (WIP)
+
+- Calculation: PM10/PM2.5
+- Each line shows the minimum and maximum per day after calculating the average ratio per hour
+
+```{r plot-ratio, fig.cap="Figure caption me!", fig.height=14, fig.width=10}
+
+dat_in |> 
+  mutate(date = as_date(date_time)) |> 
+  mutate(hour = hour(date_time)) |> 
+  group_by(date, hour, location, indicator) |> 
+  summarise(mean = mean(value)) |> 
+  pivot_wider(names_from = indicator, 
+              values_from = mean) |> 
+  mutate(p10_pm2.5_ratio = pm10/pm2.5)  |>
+  
+  filter((date != "2019-10-14" & date != "2019-10-15" & date != "2019-10-16")
+         | location != "Malnutrition") |> 
+  
+  group_by(date, location) |> 
+  summarise(min = min(p10_pm2.5_ratio),
+            max = max(p10_pm2.5_ratio)) |> 
+  
+  ggplot(aes(x = date)) +
+  geom_linerange(aes(ymin = min, ymax = max)) +
+  labs(x = "hour",
+       title = "Ratio between PM10 and PM2.5 range from minimum to maximum",
+       subtitle = "Each line shows the minimum and maximum per day (range) after calculating the average ratio per hour.
+       NOTE: Does not include 14th to 16th October at location Malnutrition") +
+  facet_wrap(~location, ncol = 2)
+
+# ggsave("figs/plot-pm10-pm25-ratio.png")
+
+```
+
+### Plot: Hourly ratio between PM10 and PM2.5 for Malnutrition on 3 days
+
+```{r plot-ratio2, fig.cap="Figure caption me!", fig.height=14, fig.width=10}
+
+dat_malnutrition <- dat_in |> 
+  mutate(date = as_date(date_time)) |> 
+  mutate(hour = hour(date_time)) |> 
+  group_by(date, hour, location, indicator) |> 
+  summarise(mean = mean(value)) |> 
+  pivot_wider(names_from = indicator, 
+              values_from = mean) |> 
+  mutate(p10_pm2.5_ratio = pm10/pm2.5)  |>
+  
+  filter(location == "uMoyo") |> 
+  filter(date == "2019-10-14" | date == "2019-10-15" | date == "2019-10-16") 
+
+
+dat_malnutrition |> 
+  ggplot(aes(x = as.factor(hour), y = p10_pm2.5_ratio, group = date)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "hour",
+       title = "Hourly ratio between PM10 and PM2.5 for Malnutrition on 3 days") +
+  facet_wrap(~date) 
+
+# ggsave("figs/plot-pm10-pm25-ratio-malnutrition-3-days.png")
+
+```
+
+### Table: Hourly ratio between PM10 and PM2.5 for Malnutrition on 3 days
+
+- PM10 significantly rises (by tenfold) during these three days
+- PM25 descreases at the same time
+- The ratio jumps from to 90 from the usual 1 to 5
+
+```{r}
+
+dat_malnutrition |>
+  mutate(across(where(is.double), round)) |> 
+  knitr::kable()
+
+```
+
+
+## Plot: Hourly average by date and location 
+
+Not included in paper.
+
+```{r plot-hourly-avg, fig.cap="Figure caption me!", fig.height=12, fig.width=10}
+
+for (name in vec_hospital_name) {
+  
+  hmap_plot <- dat_in_sum_hour |> 
+    filter(location == name) |> 
+    ggplot(aes(x = hour, y = as.factor(date), fill = mean)) +
+    geom_tile() +
+    labs(title = paste("Hospital Air Quality", "-" , name),
+         subtitle = "Hourly average 24-hour PM2.5 and PM10 concentrations",
+         y = NULL) +
+    scale_fill_viridis_c() +
+    scale_x_continuous(breaks = seq(0, 24, 1)) +
+    facet_wrap(~indicator) +
+    theme_bw(base_size = 12) +
+    theme(panel.grid = element_blank())
+  
+  print(hmap_plot)
+}
+
+```
+
+# References

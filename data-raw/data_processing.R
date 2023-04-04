@@ -42,6 +42,10 @@ for (i in seq_along(raw_data_xls)) {
     mutate(pm10 = as.double(pm10))
 }
 
+## sensor locations
+
+locations <- read_csv("data-raw/sensor-locations.csv")
+
 # tidy data ---------------------------------------------------------------
 
 qechairquality <- bind_rows(raw_data_list) |>
@@ -67,10 +71,12 @@ qechairquality <- bind_rows(raw_data_list) |>
 
 # write data --------------------------------------------------------------
 
-usethis::use_data(qechairquality, overwrite = TRUE)
+usethis::use_data(qechairquality, locations, overwrite = TRUE)
 
 fs::dir_create(here::here("inst", "extdata"))
 
 write_csv(qechairquality, here::here("inst", "extdata", "qechairquality.csv"))
+write_csv(locations, here::here("inst", "extdata", "locations.csv"))
 
 openxlsx::write.xlsx(qechairquality, here::here("inst", "extdata", "qechairquality.xlsx"))
+openxlsx::write.xlsx(locations, here::here("inst", "extdata", "locations.xlsx"))
