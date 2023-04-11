@@ -2,7 +2,7 @@
 # CITATION file created with {cffr} R package, v0.4.1
 # See also: https://docs.ropensci.org/cffr/
 # -----------------------------------------------------------
- 
+
 cff-version: 1.2.0
 message: 'To cite package "qechairquality" in publications use:'
 type: software
@@ -28,7 +28,7 @@ authors:
   orcid: https://orcid.org/0000-0002-6335-3845
 - family-names: Kwangulero
   given-names: Jonathan
-  email: Kwangerlo@gmail.com
+  email: kwangulero@gmail.com
   orcid: https://orcid.org/0000-0002-4050-5121
 - family-names: Chilunga
   given-names: Hope
