@@ -19,7 +19,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-6335-3845")),
     person(given = "Jonathan",
            family = "Kwangulero",
-           email = "Kwangerlo@gmail.com",
+           email = "kwangulero@gmail.com",
            role = c("aut"),
            comment = c(ORCID = "0000-0002-4050-5121")),
     person(given = "Hope",
