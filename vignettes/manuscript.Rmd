@@ -288,7 +288,7 @@ leaflet(sensor_loc) %>%
                                   #"font-style" = "italic"
                                 ))) %>%
 
-mapshot(file = "figs/map-blantyre-hospital.png")
+# mapshot(file = "figs/map-blantyre-hospital.png")
 ```
 
 
@@ -450,9 +450,11 @@ dat_air_quality_sum_who_2021 |>
     
     TRUE ~ exposure_percent
   )) |> 
+  
+  #filter(is.na(exposure_percent))
 
 ggplot(aes(fill = air_quality_who_annual, values = exposure_percent)) +
-  geom_waffle(color ="white", size = 0.5, n_rows = 5) +
+  geom_waffle(color ="white", size = 0.5, n_rows = 5, na.rm = TRUE) +
   coord_equal() +
   labs(title = "Air quality at eight locations at a Hospital in Malawi",
        subtitle = "Percent of time exposed per target category: 1 square = 1 percent",
@@ -513,7 +515,7 @@ dat_air_quality_sum |>
   
   
   ggplot(aes(fill = air_quality, values = exposure_percent)) +
-  geom_waffle(color ="white", size = 0.5, n_rows = 5) +
+  geom_waffle(color ="white", size = 0.5, n_rows = 5, na.rm = TRUE) +
   coord_equal() +
   labs(title = "Air quality at eight locations at a Hospital in Malawi",
        subtitle = "Percent of time exposed per risk category - (1 square = 1 percent in each block)",
