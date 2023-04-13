@@ -195,9 +195,11 @@ dat_air_quality_sum_who_2021 <- dat_air_quality |>
 
 ```
 
-# Introduction
+# Notebook
 
-The purpose of this document is to perform some initial exploratory data analysis for air quality data from Malawi. Based on this analysis, in-depth analysis will be performed and publication ready figures can be produced. 
+The purpose of this notebook is to perform some initial exploratory data analysis for air quality data from Malawi. Based on this analysis, in-depth analysis will be performed and publication ready figures can be produced. 
+
+The reproducible manuscript can be found in a separate repository: https://github.com/Global-Health-Engineering/manuscript-qechairquality
 
 # Data 
 
@@ -235,7 +237,7 @@ TODO List:
 # Create a fire icon
 # Icon from: https://github.com/apancik/public-domain-icons/blob/master/dist/symbol%20fire.svg
 
-fire_icon <- makeIcon(iconUrl = "img/symbol-fire.png",
+fire_icon <- makeIcon(iconUrl = here::here("vignettes/img/symbol-fire.png"),
                   iconWidth = 50,
                   iconHeight = 50)
 
@@ -287,8 +289,7 @@ leaflet(sensor_loc) %>%
                                   "border-color" = "rgba(0,0,0,0.5)"
                                   #"font-style" = "italic"
                                 ))) %>%
-
-# mapshot(file = "figs/map-blantyre-hospital.png")
+  mapshot(file = "figs/map-blantyre-hospital.png")
 ```
 
 
