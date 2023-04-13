@@ -74,7 +74,7 @@ read_csv("data-raw/dictionary.csv") |>
 
 ## Data
 
-The package provides access to one dataset.
+The package provides access to two dataset.
 
 ```{r}
 library(qechairquality)
@@ -91,6 +91,17 @@ qechairquality
 ```{r, echo=FALSE}
 readr::read_csv("data-raw/dictionary.csv") |> 
   dplyr::filter(file_name == "qechairquality.rda") |> 
+  dplyr::select(variable_name:description) |> 
+  knitr::kable()
+```
+
+```{r, eval=FALSE}
+locations
+```
+
+```{r, echo=FALSE}
+readr::read_csv("data-raw/dictionary.csv") |> 
+  dplyr::filter(file_name == "locations.rda") |> 
   dplyr::select(variable_name:description) |> 
   knitr::kable()
 ```

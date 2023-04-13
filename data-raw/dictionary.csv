@@ -3,3 +3,7 @@ data, qechairquality.rda, date_time, dttm, Timestamp of the air quality measurem
 data, qechairquality.rda, location, character, Label for sensor location.
 data, qechairquality.rda, indicator, character, Air quality measurement indicator (pm2.5 and pm10).
 data, qechairquality.rda, value, double, Measured value in µg/m3.
+data, locations.rda, location, character, Descriptive name of the location.
+data, locations.rda, long, double, Longitude coordinate.
+data, locations.rda, lat, double, Latitude coordinate.
+data, locations.rda, type, character, Type of location.

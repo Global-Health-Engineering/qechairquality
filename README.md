@@ -37,10 +37,11 @@ file from the table below.
 | dataset        | CSV                                                                                                                  | XLSX                                                                                                                   |
 |:---------------|:---------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------|
 | qechairquality | [Download CSV](https://github.com/Global-Health-Engineering/qechairquality/raw/main/inst/extdata/qechairquality.csv) | [Download XLSX](https://github.com/Global-Health-Engineering/qechairquality/raw/main/inst/extdata/qechairquality.xlsx) |
+| locations      | [Download CSV](https://github.com/Global-Health-Engineering/qechairquality/raw/main/inst/extdata/locations.csv)      | [Download XLSX](https://github.com/Global-Health-Engineering/qechairquality/raw/main/inst/extdata/locations.xlsx)      |
 
 ## Data
 
-The package provides access to one dataset.
+The package provides access to two dataset.
 
 ``` r
 library(qechairquality)
@@ -59,6 +60,17 @@ qechairquality
 | location      | character     | Label for sensor location.                          |
 | indicator     | character     | Air quality measurement indicator (pm2.5 and pm10). |
 | value         | double        | Measured value in µg/m3.                            |
+
+``` r
+locations
+```
+
+| variable_name | variable_type | description                       |
+|:--------------|:--------------|:----------------------------------|
+| location      | character     | Descriptive name of the location. |
+| long          | double        | Longitude coordinate.             |
+| lat           | double        | Latitude coordinate.              |
+| type          | character     | Type of location.                 |
 
 ## License
 
