@@ -8,6 +8,13 @@
 \description{
 Air quality data with measurements in 5-minute intervals for particulate matter (PM 2.5 & PM 10) at eight sensor locations over two months at Queen Elizabeth Central Hospital (QECH) in Blantyre, Malawi.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://global-health-engineering.github.io/qechairquality/}
+}
+
+}
 \author{
 \strong{Maintainer}: Lars Schöbitz \email{lschoebitz@ethz.ch} (\href{https://orcid.org/0000-0003-2196-5015}{ORCID})
 
@@ -15,7 +22,8 @@ Authors:
 \itemize{
   \item Elizabeth Tilley \email{tilleye@ethz.ch} (\href{https://orcid.org/0000-0002-2095-9724}{ORCID})
   \item Marc Kalina \email{mkalina@ethz.ch} (\href{https://orcid.org/0000-0002-6335-3845}{ORCID})
-  \item Jonathan Kwangulero \email{Kwangerlo@gmail.com} (\href{https://orcid.org/0000-0002-4050-5121}{ORCID})
+  \item Jonathan Kwangulero \email{kwangulero@gmail.com} (\href{https://orcid.org/0000-0002-4050-5121}{ORCID})
+  \item Saloni Vijay \email{svijay@ethz.ch} (\href{https://orcid.org/0000-0001-5883-5308}{ORCID})
   \item Hope Chilunga \email{hchilunga@poly.ac.mw} (\href{https://orcid.org/0000-0003-4216-6319}{ORCID})
 }
 
