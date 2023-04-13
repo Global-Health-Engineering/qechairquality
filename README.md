@@ -6,6 +6,7 @@
 <!-- badges: start -->
 
 [![DOI](https://zenodo.org/badge/418826351.svg)](https://zenodo.org/badge/latestdoi/418826351)
+[![R-CMD-check](https://github.com/Global-Health-Engineering/qechairquality/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Global-Health-Engineering/qechairquality/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 ## Overview
