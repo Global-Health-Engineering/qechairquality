@@ -11,20 +11,22 @@
 This packages contains data collected as part a research study at Queen
 Elizabeth Central Hospital (QECH) in Blantyre Malawi. Particulate matter
 measurements (PM 2.5 & PM 10) were taken in 5-minute intervals for at
-eight sensor locations over two months. Additionally XX interviews were
-conducted…
+eight sensor locations over two months.
 
-This package contains the quantitative measurements and the transcribed
-and anonymised interviews.
+## Manuscript
+
+This data was used for a manuscript subitted to Habitat International
+journal. The underlying code can be found in a separate repository. The
+`manuscript.qmd` is reproducible.
 
 ## Installation
 
-You can install the development version of durbanplasticwaste from
+You can install the development version of qechairquality from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("Global-Health-Engineering/durbanplasticwaste")
+devtools::install_github("Global-Health-Engineering/qechairquality")
 ```
 
 Alternatively, you can download the individual datasets as a CSV or XLSX
@@ -36,7 +38,7 @@ file from the table below.
 
 ## Data
 
-The package provides access to X datasets.
+The package provides access to one dataset.
 
 ``` r
 library(qechairquality)
@@ -63,4 +65,4 @@ Data are available as
 
 ## Citation
 
-To cite the durbanplasticwaste package, please use:
+To cite the qechairquality package, please use:
