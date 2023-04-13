@@ -4,6 +4,8 @@
 # qechairquality
 
 <!-- badges: start -->
+
+[![DOI](https://zenodo.org/badge/418826351.svg)](https://zenodo.org/badge/latestdoi/418826351)
 <!-- badges: end -->
 
 ## Overview

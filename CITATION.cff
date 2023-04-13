@@ -2,14 +2,15 @@
 # CITATION file created with {cffr} R package, v0.4.1
 # See also: https://docs.ropensci.org/cffr/
 # -----------------------------------------------------------
-
+ 
 cff-version: 1.2.0
 message: 'To cite package "qechairquality" in publications use:'
 type: software
 license: CC-BY-4.0
 title: 'qechairquality: Air Quality Data at Queen Elizabeth Central Hospital (QECH),
-  Blantyre, Malawi.'
-version: 0.0.0.9000
+  Blantyre, Malawi'
+version: 0.0.1
+doi: 10.5281/zenodo.7825679
 abstract: Air quality data with measurements in 5-minute intervals for particulate
   matter (PM 2.5 & PM 10) at eight sensor locations over two months at Queen Elizabeth
   Central Hospital (QECH) in Blantyre, Malawi.
@@ -30,25 +31,17 @@ authors:
   given-names: Jonathan
   email: kwangulero@gmail.com
   orcid: https://orcid.org/0000-0002-4050-5121
+- family-names: Vijay
+  given-names: Saloni
+  email: svijay@ethz.ch
+  orcid: https://orcid.org/0000-0001-5883-5308
 - family-names: Chilunga
   given-names: Hope
   email: hchilunga@poly.ac.mw
   orcid: https://orcid.org/0000-0003-4216-6319
+url: https://global-health-engineering.github.io/qechairquality/
 contact:
 - family-names: Schöbitz
   given-names: Lars
   email: lschoebitz@ethz.ch
   orcid: https://orcid.org/0000-0003-2196-5015
-references:
-- type: software
-  title: 'R: A Language and Environment for Statistical Computing'
-  notes: Depends
-  url: https://www.R-project.org/
-  authors:
-  - name: R Core Team
-  location:
-    name: Vienna, Austria
-  year: '2023'
-  institution:
-    name: R Foundation for Statistical Computing
-  version: '>= 2.10'
