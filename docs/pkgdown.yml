@@ -3,7 +3,7 @@ pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   article: article.html
-last_built: 2023-04-13T12:16Z
+last_built: 2023-04-13T12:19Z
 urls:
   reference: https://global-health-engineering.github.io/qechairquality/reference
   article: https://global-health-engineering.github.io/qechairquality/articles
