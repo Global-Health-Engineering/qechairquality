@@ -4,8 +4,6 @@
 # qechairquality
 
 <!-- badges: start -->
-
-[![R-CMD-check](https://github.com/Global-Health-Engineering/qechairquality/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Global-Health-Engineering/qechairquality/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 ## Overview
