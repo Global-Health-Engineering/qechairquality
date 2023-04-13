@@ -74,7 +74,3 @@ locations
 
 Data are available as
 [CC-BY](https://github.com/Global-Health-Engineering/qechairquality/blob/main/LICENSE.md).
-
-## Citation
-
-To cite the qechairquality package, please use:

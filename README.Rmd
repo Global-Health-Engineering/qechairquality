@@ -109,10 +109,3 @@ readr::read_csv("data-raw/dictionary.csv") |>
 Data are available as
 [CC-BY](https://github.com/Global-Health-Engineering/qechairquality/blob/main/LICENSE.md).
 
-## Citation
-
-To cite the qechairquality package, please use:
-
-```{r, echo=FALSE}
-# citation("qechairquality")
-```
