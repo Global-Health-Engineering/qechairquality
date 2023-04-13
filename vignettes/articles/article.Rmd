@@ -190,8 +190,6 @@ dat_air_quality_sum_who_2021 <- dat_air_quality |>
 
 ```
 
-# Notebook
-
 The purpose of this notebook is to perform some initial exploratory data analysis for air quality data from Malawi. Based on this analysis, in-depth analysis will be performed and publication ready figures can be produced. 
 
 The reproducible manuscript can be found in a separate repository: https://github.com/Global-Health-Engineering/manuscript-qechairquality
