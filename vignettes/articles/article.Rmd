@@ -1,10 +1,5 @@
 ---
-title: "manuscript"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{manuscript}
-  %\VignetteEncoding{UTF-8}
-  %\VignetteEngine{knitr::rmarkdown}
+title: "Notebook"
 editor_options: 
   chunk_output_type: console
 bibliography: man-qech_air-quality.bib
