@@ -49,3 +49,4 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+URL: https://global-health-engineering.github.io/qechairquality/
