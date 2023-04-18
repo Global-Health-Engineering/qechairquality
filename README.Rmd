@@ -3,6 +3,7 @@ output: github_document
 editor: 
   markdown: 
     wrap: 72
+bibliography: references.bib
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -26,8 +27,10 @@ library(stringr)
 # qechairquality
 
 <!-- badges: start -->
+
 [![DOI](https://zenodo.org/badge/418826351.svg)](https://zenodo.org/badge/latestdoi/418826351)
 [![R-CMD-check](https://github.com/Global-Health-Engineering/qechairquality/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Global-Health-Engineering/qechairquality/actions/workflows/R-CMD-check.yaml)
+
 <!-- badges: end -->
 
 ## Overview
@@ -39,9 +42,10 @@ eight sensor locations over two months.
 
 ## Manuscript
 
-This data was used for a manuscript subitted to Habitat International
-journal. The underlying code can be found in a separate repository. The
-`manuscript.qmd` is reproducible.
+This data was used for a manuscript prepared for a journal. The
+reproducible manuscript can be found at
+<https://github.com/Global-Health-Engineering/manuscript-qechairquality>
+[@schöbitz2023].
 
 ## Installation
 
@@ -111,3 +115,4 @@ readr::read_csv("data-raw/dictionary.csv") |>
 Data are available as
 [CC-BY](https://github.com/Global-Health-Engineering/qechairquality/blob/main/LICENSE.md).
 
+## References

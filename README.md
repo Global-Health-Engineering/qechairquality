@@ -7,6 +7,7 @@
 
 [![DOI](https://zenodo.org/badge/418826351.svg)](https://zenodo.org/badge/latestdoi/418826351)
 [![R-CMD-check](https://github.com/Global-Health-Engineering/qechairquality/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Global-Health-Engineering/qechairquality/actions/workflows/R-CMD-check.yaml)
+
 <!-- badges: end -->
 
 ## Overview
@@ -18,9 +19,10 @@ eight sensor locations over two months.
 
 ## Manuscript
 
-This data was used for a manuscript subitted to Habitat International
-journal. The underlying code can be found in a separate repository. The
-`manuscript.qmd` is reproducible.
+This data was used for a manuscript prepared for a journal. The
+reproducible manuscript can be found at
+<https://github.com/Global-Health-Engineering/manuscript-qechairquality>
+(Schöbitz et al. 2023).
 
 ## Installation
 
@@ -77,3 +79,18 @@ locations
 
 Data are available as
 [CC-BY](https://github.com/Global-Health-Engineering/qechairquality/blob/main/LICENSE.md).
+
+## References
+
+<div id="refs" class="references csl-bib-body hanging-indent">
+
+<div id="ref-schöbitz2023" class="csl-entry">
+
+Schöbitz, Lars, Elizabeth Tilley, Marc Kalina, Jonathan Kwangulero,
+Saloni Vijay, and Hope Chilunga. 2023. *Manuscript: "’It Is Unbearable
+to Breath Here’: Air Quality, Open Incineration, and Misinformation in
+Blantyre, Malawi"*. Zenodo. <https://doi.org/10.5281/ZENODO.7841221>.
+
+</div>
+
+</div>
